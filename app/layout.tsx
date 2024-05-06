@@ -27,7 +27,7 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-white dark:bg-gray-900`}>
         <NavBar />
         {children}
         <FooterGarcia />
