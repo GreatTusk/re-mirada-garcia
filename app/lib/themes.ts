@@ -2,7 +2,7 @@ import { CustomFlowbiteTheme } from "flowbite-react";
 
 export const navbar_theme: CustomFlowbiteTheme["navbar"] = {
   root: {
-    base: "bg-white px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800 sm:px-4",
+    base: "bg-white px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800 sm:px-4 fixed top-0 z-50 w-full",
     rounded: {
       on: "rounded",
       off: "",
