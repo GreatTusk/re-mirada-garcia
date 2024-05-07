@@ -8,6 +8,7 @@ import {
   testimonioMatrimonio,
   testimonioRetrato,
 } from "@/app/lib/data";
+import BotonLlamado from "@/app/ui/portafolio/boton-llamada-accion";
 
 export default function Page() {
   return (
@@ -22,7 +23,9 @@ export default function Page() {
           testimonio={testimonioMatrimonio}
         />
         <Heading itemPortafolio={itemRetrato} testimonio={testimonioRetrato} />
+        <BotonLlamado />
       </div>
+      
     </main>
   );
 }
