@@ -1,22 +1,8 @@
-import { PlanFoto } from "@/app/lib/definitions";
 import { PlanPrecio } from "@/app/ui/tienda/plan-precio";
+import { Metadata } from "next";
+import { planPetite } from "@/app/lib/data";
 
 export default function Page() {
-
-  const planPetite: PlanFoto = {
-    titulo: "Pack Petite",
-    precio: 480000,
-    incluye: {
-      servicios: [
-        "Sesión de documentales de la ceremonia",
-        "Sesión artística en exteriores",
-        "Edición profesional de las fotografías",
-        "Entrega de 100 fotografías digitales en alta resolución",
-      ]
-    }, // Correcting object declaration
-    noIncluye: { servicios: ["Fotografo asistente"] }
-  }
-
   return (
     <main>
       <div className="mx-auto max-w-screen-xl px-4 py-12 lg:px-6">
@@ -29,3 +15,7 @@ export default function Page() {
     </main>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Tienda",
+};

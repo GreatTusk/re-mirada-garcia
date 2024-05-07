@@ -3,9 +3,9 @@ import Image from "next/image";
 import { ImageConfigPortafolio } from "@/app/lib/definitions";
 
 export function CarrouselPortafolio({
-  imageConfig
+  imageConfig,
 }: {
-  imageConfig: ImageConfigPortafolio
+  imageConfig: ImageConfigPortafolio;
 }) {
   return (
     <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
@@ -19,6 +19,7 @@ export function CarrouselPortafolio({
             height={imageConfig.height}
             placeholder="blur"
             blurDataURL="/carousel-fallback.svg"
+            className="h-full object-cover rounded-2xl"
           />
         ))}
       </Carousel>
