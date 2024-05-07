@@ -18,12 +18,9 @@ export default function Page() {
             competitivos sin comprometer la calidad.{" "}
           </p>
         </div>
-        <div className="space-y-8 py-8 sm:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0 grid-auto-rows minmax(100px, auto) items-stretch">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
           {[planXpress, planPetite, planPlus].map((plan: PlanFoto) => (
-            <div
-              className="flex items-start justify-center md:flex-col"
-              key={plan.titulo}
-            >
+            <div key={plan.titulo}>
               <PlanPrecio planFoto={plan} />
             </div>
           ))}
