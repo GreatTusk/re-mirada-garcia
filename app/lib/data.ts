@@ -92,7 +92,12 @@ export const planXpress: PlanFoto = {
     ],
   },
   noIncluye: {
-    servicios: ["Fotógrafo adicional", "Sesión artística en exteriores", "Sesión pre-evento", "Fotografías sin editar"],
+    servicios: [
+      "Fotógrafo adicional",
+      "Sesión artística en exteriores",
+      "Sesión pre-evento",
+      "Fotografías originales sin editar",
+    ],
   },
 };
 
@@ -110,7 +115,7 @@ export const planPetite: PlanFoto = {
     ],
   },
   noIncluye: {
-    servicios: ["Sesión pre-evento", "Fotografías sin editar"],
+    servicios: ["Sesión pre-evento", "Fotografías originales sin editar"],
   },
 };
 
@@ -125,11 +130,10 @@ export const planPlus: PlanFoto = {
       "Entrega de 650 fotografías digitales en alta resolución",
       "2 Fotógrafos adicionales",
       "10 horas de cobertura",
-      "Fotografías originales sin editar"
+      "Fotografías originales sin editar",
     ],
   },
-  noIncluye: { servicios: [] }
-
+  noIncluye: { servicios: [] },
 };
 
 export const links = [
