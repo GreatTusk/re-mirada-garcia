@@ -1,12 +1,12 @@
 import { formatPriceWithSeparator } from "@/app/lib/util";
 import { PlanFoto } from "@/app/lib/definitions";
-import { Card } from "flowbite-react";
+import { Button, Card } from "flowbite-react";
 
 export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
   return (
     <div className="py-8">
       <Card className="max-w-sm">
-        <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
+        <h5 className="mb-4 text-2xl font-medium text-gray-500 dark:text-gray-400">
           {planFoto.titulo}
         </h5>
         <div className="flex items-baseline text-gray-900 dark:text-white">
@@ -14,7 +14,7 @@ export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
           <span className="text-5xl font-extrabold tracking-tight">
             {formatPriceWithSeparator(planFoto.precio)}
           </span>
-          <span className="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+          <span className="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400 truncate max-w-[120px] md:max-w-[none]">
             /evento
           </span>
         </div>
@@ -62,12 +62,13 @@ export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          className="inline-flex w-full justify-center rounded-lg bg-cyan-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-cyan-200 dark:focus:ring-cyan-900"
-        >
-          Elegir Plan
-        </button>
+        <Button outline gradientDuoTone="cyanToBlue">
+          Contacto ventas
+        </Button>
+        <Button outline gradientDuoTone="purpleToBlue">
+          Comprar
+        </Button>
+        
       </Card>
     </div>
   );

@@ -52,8 +52,8 @@ export const itemRetrato: ItemPortafolio = {
 
 export const testimonioConcierto: ItemTestimonio = {
   cliente: {
-    nombre: "Juan",
-    ocupacion: "Músico",
+    nombre: "Jairo Vera",
+    ocupacion: "Cantante urbano",
     imageUrl: `${imageUrls[0]}/1.jpg`,
   },
   testimonio:
@@ -80,18 +80,56 @@ export const testimonioRetrato: ItemTestimonio = {
     "¡Me encanta! La sesión de fotos para mi retrato fue una experiencia increíble. Capturaste mi personalidad de una manera única y hermosa. ¡Gracias por tu talento y profesionalismo!",
 };
 
+export const planXpress: PlanFoto = {
+  titulo: "Plan Xpress",
+  precio: 260000,
+  incluye: {
+    servicios: [
+      "Sesión documental del evento",
+      "Edición profesional de las fotografías",
+      "Entrega de 100 fotografías digitales en alta resolución",
+      "2 horas de cobertura",
+    ],
+  },
+  noIncluye: {
+    servicios: ["Fotógrafo adicional", "Sesión artística en exteriores", "Sesión pre-evento", "Fotografías sin editar"],
+  },
+};
+
 export const planPetite: PlanFoto = {
-  titulo: "Pack Petite",
+  titulo: "Plan Petite",
   precio: 480000,
   incluye: {
     servicios: [
-      "Sesión de documentales de la ceremonia",
+      "Sesión documental del evento",
       "Sesión artística en exteriores",
       "Edición profesional de las fotografías",
-      "Entrega de 100 fotografías digitales en alta resolución",
+      "Entrega de 200 fotografías digitales en alta resolución",
+      "Fotógrafo adicional",
+      "4 horas de cobertura",
     ],
   },
-  noIncluye: { servicios: ["Fotografo asistente"] },
+  noIncluye: {
+    servicios: ["Sesión pre-evento", "Fotografías sin editar"],
+  },
+};
+
+export const planPlus: PlanFoto = {
+  titulo: "Plan Plus",
+  precio: 1550000,
+  incluye: {
+    servicios: [
+      "Sesión documental desde los preparativos hasta la celebración del evento",
+      "Sesión artística en exteriores",
+      "Edición profesional de las fotografías",
+      "Entrega de 650 fotografías digitales en alta resolución",
+      "2 Fotógrafos adicionales",
+      "10 horas de cobertura",
+      "Fotografías originales sin editar"
+    ],
+  },
+  noIncluye: { servicios: [] }
+
 };
 
 export const links = [
