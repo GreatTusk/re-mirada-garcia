@@ -16,8 +16,8 @@ export default function NavBar() {
         <Navbar.Brand as={Link} href="/">
           <Image
             src="/icon.png"
-            className="mr-3 h-6 sm:h-9"
-            alt="Flowbite React Logo"
+            className="mr-3 sm:h-9 h-full object-cover"
+            alt="Logo Mirada Garcia"
             width={36}
             height={36}
           />
