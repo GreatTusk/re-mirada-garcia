@@ -31,3 +31,11 @@ export type ItemTestimonio = {
   cliente: Cliente;
   testimonio: string;
 };
+
+export type ContactoVenta = {
+  email: string;
+  nombre: string;
+  fono: string;
+  consulta: string;
+  boletin: string;
+};

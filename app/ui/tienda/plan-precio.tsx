@@ -1,6 +1,8 @@
 import { formatPriceWithSeparator } from "@/app/lib/util";
 import { PlanFoto } from "@/app/lib/definitions";
 import { Button, Card } from "flowbite-react";
+import { ContactoVentas } from "@/app/ui/tienda/contacto";
+import Link from "next/link";
 
 export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
   return (
@@ -61,12 +63,12 @@ export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
           </li>
         ))}
       </ul>
-      <Button outline gradientDuoTone="cyanToBlue">
-        Contacto ventas
-      </Button>
-      <Button outline gradientDuoTone="purpleToBlue">
-        Comprar
-      </Button>
+      <ContactoVentas />
+      <Link href="/tienda/carrito-compras">
+        <Button outline gradientDuoTone="purpleToBlue" className="w-full">
+          Comprar
+        </Button>
+      </Link>
     </Card>
   );
 }
