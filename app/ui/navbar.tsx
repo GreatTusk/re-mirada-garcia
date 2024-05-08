@@ -34,7 +34,7 @@ export default function NavBar() {
           </SignedIn>
           <SignedOut>
             {/* Signed out users get sign in button */}
-            <SignInButton>
+            <SignInButton fallbackRedirectUrl="/">
               <Button outline gradientDuoTone="purpleToBlue" className="w-full">
                 Iniciar sesión
               </Button>

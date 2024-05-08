@@ -7,6 +7,8 @@ import { ThemeModeScript } from "flowbite-react";
 import NavBar from "@/app/ui/navbar";
 import { FooterGarcia } from "@/app/ui/footer";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark, neobrutalism, shadesOfPurple } from "@clerk/themes";
+import { shadows } from "@clerk/themes/dist/clerk-js/src/ui/foundations/shadows";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: [dark],
+      }}
+    >
       <html lang="en">
         <head>
           <ThemeModeScript />
