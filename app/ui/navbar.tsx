@@ -55,31 +55,6 @@ export default function NavBar() {
               {link.label}
             </Navbar.Link>
           ))}
-          {
-            <Navbar.Link
-              active={
-                pathname === "/quienes_somos" ||
-                pathname === "/terminos-condiciones"
-              }
-            >
-              <MegaMenu.Dropdown toggle={<>Sobre nosotros</>}>
-                <ul className="grid grid-cols-1">
-                  <div className="space-y-4 p-4">
-                    <li>
-                      <Navbar.Link as={Link} href={"/quienes_somos"}>
-                        Quiénes somos
-                      </Navbar.Link>
-                    </li>
-                    <li>
-                      <Navbar.Link as={Link} href={"/terminos-condiciones"}>
-                        Términos y condiciones
-                      </Navbar.Link>
-                    </li>
-                  </div>
-                </ul>
-              </MegaMenu.Dropdown>
-            </Navbar.Link>
-          }
         </Navbar.Collapse>
       </Navbar>
     </div>

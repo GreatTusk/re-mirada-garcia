@@ -1,4 +1,5 @@
 import {
+  Cartablog,
   ItemPortafolio,
   ItemTestimonio,
   PlanFoto,
@@ -141,4 +142,26 @@ export const links = [
   { path: "/portafolio", label: "Portafolio" },
   { path: "/tienda", label: "Tienda" },
   { path: "/nuestra_vision", label: "Nuestra visión" },
+  { path: "/blog", label: "Blog" },
+  { path: "/terminos-condiciones", label: "Términos y condiciones" },
 ];
+
+export const primerpost: Cartablog = {
+  titulo:
+    "Ideas originales que harán que la entrada de los novios sea inolvidable",
+  tag: "Matrimonios",
+  contenido:
+    "El trayecto hacia el matrimonio implica imaginar una y otra vez ese momento especial, experimentando emociones intensas pero también ciertos nervios. Es completamente normal y válido sentirse así durante este proceso, que puede resultar sumamente divertido. ¿Cómo lograrlo? Pues, ¡pensando en ideas que hagan que cada etapa [...]",
+  fechapub: "09-05-2024",
+  id: "1",
+};
+
+export const segundopost: Cartablog = {
+  titulo: "Wedding Awards 2023",
+  contenido:
+    "Las parejas escogen a Darío García como uno de los mejores profesionales de matrimonios del país. – Matrimonios.cl celebra la 10a edición de los prestigiosos premios Wedding Awards, en los que participan las más de 17.000 empresas registradas en el portal. – El valor de los Wedding Awards reside […]",
+  fechapub: "20-05-2024",
+  id: "2",
+  tag: "Matrimonios",
+};
+export const posts: Cartablog[] = [primerpost, segundopost];

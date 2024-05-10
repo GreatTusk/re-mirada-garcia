@@ -67,3 +67,11 @@ export type Carrito = {
   precioTotal: number;
   ahorros: number;
 };
+
+export type Cartablog = {
+  id: string;
+  titulo: string;
+  contenido: string;
+  fechapub: string;
+  tag: string;
+};
