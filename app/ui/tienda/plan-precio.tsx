@@ -1,10 +1,13 @@
-import { formatPriceWithSeparator } from "@/app/lib/util";
 import { PlanFoto } from "@/app/lib/definitions";
 import { Button, Card } from "flowbite-react";
 import { ContactoVentas } from "@/app/ui/tienda/contacto";
 import Link from "next/link";
 
 export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
+  function formatPriceWithSeparator(price: number) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
   return (
     <Card className="max-w-sm">
       <h5 className="mb-4 text-2xl font-medium text-gray-500 dark:text-gray-400">

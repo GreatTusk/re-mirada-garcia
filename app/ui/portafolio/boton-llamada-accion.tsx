@@ -1,10 +1,16 @@
+"use client";
 import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAnimationOnView } from "@/app/lib/util";
 
 export default function BotonLlamado() {
+  const ref = useAnimationOnView("animate-fadeIn");
   return (
-    <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
+    <div
+      ref={ref}
+      className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6"
+    >
       <Image
         src="/img/fotos-concierto/5.jpg"
         width={1908}

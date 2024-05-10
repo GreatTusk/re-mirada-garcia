@@ -10,6 +10,7 @@ export function ContactoVentas() {
   function onCloseModal() {
     setOpenModal(false);
   }
+
   return (
     <>
       <Button

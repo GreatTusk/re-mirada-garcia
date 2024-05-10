@@ -1,17 +1,20 @@
 import { Cartablog } from "@/app/lib/definitions";
+import Image from "next/image";
 
 export default function Blog({ blog }: { blog: Cartablog }) {
   return (
-    <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
+    <main className="pt-16 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
       <div className="flex justify-between px-4 mx-auto max-w-screen-xl ">
         <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
           <header className="mb-4 lg:mb-6 not-format">
             <address className="flex items-center mb-6 not-italic">
               <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                <img
+                <Image
                   className="mr-4 w-16 h-16 rounded-full"
                   src="/icon.png"
-                  alt="Jese Leos"
+                  alt="Dario"
+                  width={64}
+                  height={64}
                 />
                 <div>
                   <a
@@ -52,9 +55,12 @@ export default function Blog({ blog }: { blog: Cartablog }) {
             conveniently built with the utility classes from Tailwind CSS.
           </p>
           <figure>
-            <img
-              src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-1.png"
+            <Image
+              src="/img/fotos-matrimonio/5.jpg"
               alt=""
+              width={1920}
+              height={1280}
+              className={"rounded-lg"}
             />
             <figcaption>Digital art by Anonymous</figcaption>
           </figure>
@@ -161,9 +167,12 @@ export default function Blog({ blog }: { blog: Cartablog }) {
             <li>Diagonal stress in the strokes</li>
             <li>Slanted serifs on lower-case ascenders</li>
           </ul>
-          <img
-            src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-2.png"
+          <Image
+            src="/img/fotos-matrimonio/6.jpg"
             alt=""
+            width={1920}
+            height={1280}
+            className={"rounded-lg"}
           />
           <ol>
             <li>Low contrast between thick and thin strokes</li>

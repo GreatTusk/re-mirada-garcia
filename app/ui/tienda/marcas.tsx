@@ -1,6 +1,10 @@
+"use client";
+import { useAnimationOnView } from "@/app/lib/util";
+
 export default function Marcas() {
+  const ref = useAnimationOnView("animate-fadeIn");
   return (
-    <div className="pt-16 pb-8 mx-auto max-w-screen-xl px-4">
+    <div ref={ref} className="pt-16 pb-8 mx-auto max-w-screen-xl px-4">
       <h2 className="mb-8 lg:mb-16 text-3xl font-extrabold tracking-tight leading-tight text-center text-gray-900 dark:text-white md:text-4xl">
         Somos los preferidos de estas marcas
       </h2>

@@ -141,9 +141,9 @@ export const links = [
   { path: "/", label: "Inicio" },
   { path: "/portafolio", label: "Portafolio" },
   { path: "/tienda", label: "Tienda" },
-  { path: "/nuestra_vision", label: "Nuestra visión" },
   { path: "/blog", label: "Blog" },
-  { path: "/terminos-condiciones", label: "Términos y condiciones" },
+  { path: "/nuestra_vision", label: "Nuestra visión" },
+  { path: "/legal", label: "Legal" },
 ];
 
 export const primerpost: Cartablog = {

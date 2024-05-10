@@ -1,7 +1,8 @@
 import { Button, Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 import { HiMail, HiPhone, HiUser } from "react-icons/hi";
-import { useFormState } from "react-dom";
 import { crearContactoVenta, State } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
+import ModalExito from "@/app/ui/tienda/carrito-compras/modal-exito";
 
 type FormularioContactoProps = {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,11 +11,22 @@ type FormularioContactoProps = {
 export default function FormularioContacto({
   setOpenModal,
 }: FormularioContactoProps) {
-  const initialState: State = { message: null, errors: {} };
+  let initialState: State = { message: null, errors: {} };
   const [state, dispatch] = useFormState(crearContactoVenta, initialState);
 
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    initialState = await crearContactoVenta(
+      initialState,
+      new FormData(event.currentTarget),
+    );
+    console.log(initialState.message);
+    if (initialState.message === "Solicitud enviada exitosamente.") {
+      setOpenModal(false);
+    }
+  }
+
   return (
-    <form action={dispatch} className="space-y-6">
+    <form action={dispatch} onSubmit={onSubmit} className="space-y-6">
       <div>
         <div className="mb-2 block">
           <Label
@@ -125,17 +137,7 @@ export default function FormularioContacto({
         Su consulta será respondida por un ejecutivo en un plazo de 24 horas.
       </div>
       <div className="w-full">
-        <Button
-          outline
-          gradientDuoTone="cyanToBlue"
-          type="submit"
-          onClick={() => {
-            console.log(state.message);
-            if (state.message === "Solicitud enviada exitosamente.") {
-              setOpenModal(true);
-            }
-          }}
-        >
+        <Button outline gradientDuoTone="cyanToBlue" type="submit">
           Enviar consulta
         </Button>
       </div>
