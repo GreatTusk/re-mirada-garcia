@@ -10,6 +10,21 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        slideIn: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        slideIn: "slideIn 2s ease-in-out",
+        fadeIn: "fadeIn 2s ease-in-out",
+      },
+
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -32,6 +47,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [flowbite.plugin()],
+  plugins: [flowbite.plugin(), require("flowbite-typography")],
 };
 export default config;

@@ -1,9 +1,13 @@
+"use client";
 import { Avatar, Blockquote } from "flowbite-react";
 import { ItemTestimonio } from "@/app/lib/definitions";
+import { useEffect, useRef } from "react";
+import { useAnimationOnView } from "@/app/lib/util";
 
 export function Testimonio({ testimonio }: { testimonio: ItemTestimonio }) {
+  const figureRef = useAnimationOnView("animate-slideIn");
   return (
-    <figure className="mx-auto max-w-screen-md text-center">
+    <figure ref={figureRef} className="mx-auto max-w-screen-md text-center">
       <svg
         className="mx-auto mb-3 h-10 w-10 text-gray-400 dark:text-gray-600"
         aria-hidden="true"

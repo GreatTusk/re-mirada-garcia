@@ -28,6 +28,10 @@ const ContactSchema = z.object({
   boletin: z.nullable(z.string()),
 });
 
+type FormularioContactoProps = {
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 export async function crearContactoVenta(
   estadoPrevio: State,
   formData: FormData,
@@ -46,7 +50,7 @@ export async function crearContactoVenta(
       message: "Faltan campos. No se pudo enviar la solicitud.",
     };
   }
-
+  console.log(camposValidados);
   return {
     errors: {},
     message: "Solicitud enviada exitosamente.",

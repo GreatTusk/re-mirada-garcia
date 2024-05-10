@@ -1,5 +1,6 @@
 import { Cartablog } from "@/app/lib/definitions";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CartaBlog({ blogs }: { blogs: Cartablog[] }) {
   return (
@@ -43,10 +44,12 @@ export default function CartaBlog({ blogs }: { blogs: Cartablog[] }) {
             </p>
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
-                <img
+                <Image
                   className="w-7 h-7 rounded-full"
                   src="/icon.png"
                   alt="Jese Leos avatar"
+                  width={1000}
+                  height={1000}
                 />
                 <span className="font-medium dark:text-white">
                   Darío García

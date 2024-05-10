@@ -1,9 +1,12 @@
+"use client";
 import { Button } from "flowbite-react";
 import Link from "next/link";
+import { useAnimationOnView } from "@/app/lib/util";
 
 export default function LlamadaAccion() {
+  const ref = useAnimationOnView("animate-fadeIn");
   return (
-    <div className="pb-16 pt-8 px-4 mx-auto max-w-screen-xl lg:px-6">
+    <div ref={ref} className="pb-16 pt-8 px-4 mx-auto max-w-screen-xl lg:px-6">
       <div className="mx-auto max-w-screen-sm text-center">
         <h2 className="mb-4 text-4xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white">
           Sé parte de la experiencia MiradaGarcía

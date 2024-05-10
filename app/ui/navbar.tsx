@@ -8,6 +8,7 @@ import Image from "next/image";
 import { links } from "@/app/lib/data";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import React from "react";
+import { HiUserCircle } from "react-icons/hi";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -35,8 +36,8 @@ export default function NavBar() {
           <SignedOut>
             {/* Signed out users get sign in button */}
             <SignInButton fallbackRedirectUrl="/">
-              <Button outline gradientDuoTone="purpleToBlue" className="w-full">
-                Iniciar sesión
+              <Button outline gradientDuoTone="purpleToBlue">
+                <HiUserCircle className="h-5 w-5" />
               </Button>
             </SignInButton>
           </SignedOut>
