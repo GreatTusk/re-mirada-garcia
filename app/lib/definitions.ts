@@ -31,3 +31,39 @@ export type ItemTestimonio = {
   cliente: Cliente;
   testimonio: string;
 };
+
+export type ContactoVenta = {
+  id: string;
+  email: string;
+  nombre: string;
+  fono: string;
+  consulta: string;
+  boletin: string;
+};
+
+export type Producto = {
+  id: string;
+  nombre: string;
+  precio: number;
+  imagenUrl: string;
+  precioOferta?: number;
+};
+export type ProductoCarrito = {
+  producto: Producto;
+  cantidad: number;
+};
+
+export type Usuario = {
+  id: string;
+  nombre: string;
+  email: string;
+  contrasena: string;
+};
+
+export type Carrito = {
+  id: string;
+  usuario: Usuario;
+  productos: ProductoCarrito[];
+  precioTotal: number;
+  ahorros: number;
+};

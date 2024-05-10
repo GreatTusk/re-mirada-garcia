@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { DarkThemeToggle, MegaMenu, Navbar } from "flowbite-react";
+import { Button, DarkThemeToggle, MegaMenu, Navbar } from "flowbite-react";
 import { navbar_theme } from "@/app/lib/themes";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { links } from "@/app/lib/data";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import React from "react";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -25,8 +27,21 @@ export default function NavBar() {
             Mirada García
           </span>
         </Navbar.Brand>
-        <div className="flex md:order-2">
+        <div className="flex md:order-2 gap-4">
+          <SignedIn>
+            {/* Mount the UserButton component */}
+            <UserButton />
+          </SignedIn>
+          <SignedOut>
+            {/* Signed out users get sign in button */}
+            <SignInButton fallbackRedirectUrl="/">
+              <Button outline gradientDuoTone="purpleToBlue" className="w-full">
+                Iniciar sesión
+              </Button>
+            </SignInButton>
+          </SignedOut>
           <DarkThemeToggle />
+
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
