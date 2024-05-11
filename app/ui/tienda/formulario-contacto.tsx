@@ -1,38 +1,41 @@
 import { Button, Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 import { HiMail, HiPhone, HiUser } from "react-icons/hi";
 import { crearContactoVenta, State } from "@/app/lib/actions";
-import { useFormState } from "react-dom";
-import ModalExito from "@/app/ui/tienda/carrito-compras/modal-exito";
-
-type FormularioContactoProps = {
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { useState } from "react";
 
 export default function FormularioContacto({
-  setOpenModal,
-}: FormularioContactoProps) {
-  let initialState: State = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(crearContactoVenta, initialState);
-
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    initialState = await crearContactoVenta(
-      initialState,
-      new FormData(event.currentTarget),
-    );
-    console.log(initialState.message);
-    if (initialState.message === "Solicitud enviada exitosamente.") {
-      setOpenModal(false);
-    }
-  }
+  setOpenFormModal,
+  setOpenSuccessModal,
+}: {
+  setOpenFormModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSuccessModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const [initialState, setInitialState] = useState<State>({
+    message: null,
+    errors: {},
+  });
 
   return (
-    <form action={dispatch} onSubmit={onSubmit} className="space-y-6">
+    <form
+      action={async (formData) => {
+        const newState: State = await crearContactoVenta(
+          initialState,
+          formData,
+        );
+        setInitialState(newState);
+        if (newState.message === "Solicitud enviada exitosamente.") {
+          setOpenFormModal(false);
+          setOpenSuccessModal(true);
+        }
+      }}
+      className="space-y-6"
+    >
       <div>
         <div className="mb-2 block">
           <Label
             htmlFor="nombre"
             value="Ingrese su nombre:"
-            color={state.errors?.email ? "failure" : undefined}
+            color={initialState.errors?.email ? "failure" : undefined}
           />
         </div>
         <TextInput
@@ -41,11 +44,12 @@ export default function FormularioContacto({
           icon={HiUser}
           type="text"
           placeholder="Darío García"
-          color={state.errors?.nombre ? "failure" : undefined}
+          color={initialState.errors?.nombre ? "failure" : undefined}
           helperText={
-            state.errors?.nombre && (
+            initialState.errors?.nombre && (
               <>
-                <span className="font-medium">¡Uy!</span> {state.errors.nombre}
+                <span className="font-medium">¡Uy!</span>{" "}
+                {initialState.errors.nombre}
               </>
             )
           }
@@ -57,7 +61,7 @@ export default function FormularioContacto({
             htmlFor="email4"
             value="Ingrese su correo:"
             aria-describedby="error-correo"
-            color={state.errors?.email ? "failure" : undefined}
+            color={initialState.errors?.email ? "failure" : undefined}
           />
         </div>
         <TextInput
@@ -66,11 +70,12 @@ export default function FormularioContacto({
           type="email"
           icon={HiMail}
           placeholder="nombre@mail.com"
-          color={state.errors?.email ? "failure" : undefined}
+          color={initialState.errors?.email ? "failure" : undefined}
           helperText={
-            state.errors?.email && (
+            initialState.errors?.email && (
               <>
-                <span className="font-medium">¡Uy!</span> {state.errors.email}
+                <span className="font-medium">¡Uy!</span>{" "}
+                {initialState.errors.email}
               </>
             )
           }
@@ -82,7 +87,7 @@ export default function FormularioContacto({
           <Label
             htmlFor="fono"
             value="Ingrese su teléfono:"
-            color={state.errors?.email ? "failure" : undefined}
+            color={initialState.errors?.email ? "failure" : undefined}
           />
         </div>
         <TextInput
@@ -91,11 +96,12 @@ export default function FormularioContacto({
           icon={HiPhone}
           type="tel"
           placeholder="912345678"
-          color={state.errors?.fono ? "failure" : undefined}
+          color={initialState.errors?.fono ? "failure" : undefined}
           helperText={
-            state.errors?.fono && (
+            initialState.errors?.fono && (
               <>
-                <span className="font-medium">¡Uy!</span> {state.errors.fono}
+                <span className="font-medium">¡Uy!</span>{" "}
+                {initialState.errors.fono}
               </>
             )
           }
@@ -106,7 +112,7 @@ export default function FormularioContacto({
           <Label
             htmlFor="consulta"
             value="Ingrese su consulta:"
-            color={state.errors?.consulta ? "failure" : undefined}
+            color={initialState.errors?.consulta ? "failure" : undefined}
           />
         </div>
         <Textarea
@@ -114,12 +120,12 @@ export default function FormularioContacto({
           name="consulta"
           placeholder="Tengo planeado..."
           rows={4}
-          color={state.errors?.consulta ? "failure" : undefined}
+          color={initialState.errors?.consulta ? "failure" : undefined}
           helperText={
-            state.errors?.consulta && (
+            initialState.errors?.consulta && (
               <>
                 <span className="font-medium">¡Uy!</span>{" "}
-                {state.errors.consulta}
+                {initialState.errors.consulta}
               </>
             )
           }

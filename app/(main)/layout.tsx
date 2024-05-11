@@ -2,7 +2,7 @@
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { ThemeModeScript } from "flowbite-react";
 import NavBar from "@/app/ui/navbar";
 import { FooterGarcia } from "@/app/ui/footer";
