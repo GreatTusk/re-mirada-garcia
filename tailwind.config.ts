@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        lg2: "944px",
+      },
       keyframes: {
         slideIn: {
           "0%": { transform: "translateX(-100%)" },
