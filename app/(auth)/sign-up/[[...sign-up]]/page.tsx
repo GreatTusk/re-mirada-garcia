@@ -10,7 +10,7 @@ export default function Page() {
           appearance={{
             variables: {
               colorPrimary: "#005277", // Adjusted primary color to a different shade of blue
-              colorBackground: "#1F2937", // Adjusted background color to a darker shade
+              colorBackground: "#1b2c3a",
               colorText: "#F9FAFB", // Adjusted text color to a lighter shade for readability
               colorTextOnPrimaryBackground: "#D1D5DB", // Kept the same
               colorInputText: "#F9FAFB", // Adjusted input text color to a lighter shade for readability

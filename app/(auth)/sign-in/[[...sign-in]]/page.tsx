@@ -9,12 +9,12 @@ export default function Page() {
         <SignIn
           appearance={{
             variables: {
-              colorPrimary: "#005277", // Adjusted primary color to a different shade of blue
-              colorBackground: "#1F2937", // Adjusted background color to a darker shade
-              colorText: "#F9FAFB", // Adjusted text color to a lighter shade for readability
-              colorTextOnPrimaryBackground: "#D1D5DB", // Kept the same
-              colorInputText: "#F9FAFB", // Adjusted input text color to a lighter shade for readability
-              colorInputBackground: "#374151", // Adjusted input background color to a darker shade
+              colorPrimary: "#005277",
+              colorBackground: "#1b2c3a",
+              colorText: "#F9FAFB",
+              colorTextOnPrimaryBackground: "#D1D5DB",
+              colorInputText: "#F9FAFB",
+              colorInputBackground: "#374151",
             },
             elements: {
               input: {

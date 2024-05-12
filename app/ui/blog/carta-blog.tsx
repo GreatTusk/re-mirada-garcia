@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function CartaBlog({ blogs }: { blogs: Cartablog[] }) {
   return (
-    <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+    <div className="py-16 px-4 mx-auto max-w-screen-xl lg:px-6">
       <div className="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
         <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
           Blog
@@ -37,10 +37,12 @@ export default function CartaBlog({ blogs }: { blogs: Cartablog[] }) {
               <span className="text-sm">{post.fechapub}</span>
             </div>
             <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              <a href="#">{post.titulo}</a>
+              <Link href={`/blog/${post.id}`}>{post.titulo}</Link>
             </h2>
             <p className="mb-5 font-light text-gray-500 dark:text-gray-400">
-              {post.contenido}
+              {post.secciones[0].parrafos &&
+                post.secciones[0].parrafos[0].substring(0, 256)}
+              ...
             </p>
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">

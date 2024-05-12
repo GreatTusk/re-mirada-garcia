@@ -7,8 +7,8 @@ export default function MainHero() {
     "
     >
       {/*bg-center bg-no-repeat bg-[url('/img/fotos-concierto/6.jpg')] bg-gray-700 bg-blend-multiply*/}
-      <a
-        href="#"
+      <Link
+        href="/blog"
         className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
         role="alert"
       >
@@ -30,7 +30,7 @@ export default function MainHero() {
             clipRule="evenodd"
           ></path>
         </svg>
-      </a>
+      </Link>
       <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
         Capturamos momentos únicos para ti
       </h1>
@@ -58,8 +58,9 @@ export default function MainHero() {
             ></path>
           </svg>
         </Link>
-        <a
-          href="#"
+        <Link
+          target={"_blank"}
+          href="https://vimeo.com/905996748"
           className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg border border-gray-700 hover:bg-gray-700 focus:ring-4 focus:ring-gray-800"
         >
           <svg
@@ -71,7 +72,7 @@ export default function MainHero() {
             <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path>
           </svg>
           Mirar vídeo
-        </a>
+        </Link>
       </div>
       <div className="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
         <span className="font-semibold text-gray-400 uppercase">
