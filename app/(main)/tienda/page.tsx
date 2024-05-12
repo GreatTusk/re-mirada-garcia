@@ -1,10 +1,12 @@
 import { PlanPrecio } from "@/app/ui/tienda/plan-precio";
 import { Metadata } from "next";
-import { planPetite, planPlus, planXpress } from "@/app/lib/data";
 import Marcas from "@/app/ui/tienda/marcas";
 import { PlanFoto } from "@/app/lib/definitions";
+import { fetchPlanesFoto } from "@/app/lib/db";
+import { Suspense } from "react";
 
-export default function Page() {
+export default async function Page() {
+  const planesFoto = await fetchPlanesFoto();
   return (
     <main>
       <div className="mx-auto max-w-screen-xl px-4 py-12 lg:px-6">
@@ -19,9 +21,11 @@ export default function Page() {
           </p>
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
-          {[planXpress, planPetite, planPlus].map((plan: PlanFoto) => (
+          {planesFoto.map((plan: PlanFoto) => (
             <div key={plan.titulo}>
-              <PlanPrecio planFoto={plan} />
+              <Suspense fallback={<div>Loading...</div>} key={plan.titulo}>
+                <PlanPrecio planFoto={plan} />
+              </Suspense>
             </div>
           ))}
         </div>

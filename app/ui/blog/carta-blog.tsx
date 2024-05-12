@@ -46,7 +46,7 @@ export default function CartaBlog({ blogs }: { blogs: Cartablog[] }) {
               <div className="flex items-center space-x-4">
                 <Image
                   className="w-7 h-7 rounded-full"
-                  src="/icon.png"
+                  src="/logo.png"
                   alt="Jese Leos avatar"
                   width={1000}
                   height={1000}

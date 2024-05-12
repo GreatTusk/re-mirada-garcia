@@ -11,7 +11,7 @@ export default function Blog({ blog }: { blog: Cartablog }) {
               <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
                 <Image
                   className="mr-4 w-16 h-16 rounded-full"
-                  src="/icon.png"
+                  src="/logo.png"
                   alt="Dario"
                   width={64}
                   height={64}

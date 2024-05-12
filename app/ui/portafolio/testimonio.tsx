@@ -1,7 +1,6 @@
 "use client";
 import { Avatar, Blockquote } from "flowbite-react";
 import { ItemTestimonio } from "@/app/lib/definitions";
-import { useEffect, useRef } from "react";
 import { useAnimationOnView } from "@/app/lib/util";
 
 export function Testimonio({ testimonio }: { testimonio: ItemTestimonio }) {

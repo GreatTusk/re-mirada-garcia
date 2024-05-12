@@ -82,6 +82,7 @@ export const testimonioRetrato: ItemTestimonio = {
 };
 
 export const planXpress: PlanFoto = {
+  id: "1",
   titulo: "Plan Xpress",
   precio: 260000,
   incluye: {
@@ -103,6 +104,7 @@ export const planXpress: PlanFoto = {
 };
 
 export const planPetite: PlanFoto = {
+  id: "2",
   titulo: "Plan Petite",
   precio: 480000,
   incluye: {
@@ -121,6 +123,7 @@ export const planPetite: PlanFoto = {
 };
 
 export const planPlus: PlanFoto = {
+  id: "3",
   titulo: "Plan Plus",
   precio: 1550000,
   incluye: {
