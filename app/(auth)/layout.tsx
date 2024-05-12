@@ -33,7 +33,7 @@ export default function RootLayout({
         >
           <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 w-full">
             <div className="h-full lg:flex flex-col items-center justify-center px-4">
-              <div className="text-center space-y-4 pt-16">
+              <div className="text-center space-y-4">
                 <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
                   Bienvenidos a Mirada García
                 </h1>
