@@ -58,7 +58,6 @@ export type Usuario = {
   id: string;
   nombre: string;
   email: string;
-  contrasena: string;
 };
 
 export type Carrito = {
@@ -72,7 +71,31 @@ export type Carrito = {
 export type Cartablog = {
   id: string;
   titulo: string;
-  contenido: string;
+  bajadaTitulo: string;
+  secciones: Seccion[];
   fechapub: string;
   tag: string;
+  cita?: string;
+};
+
+export type Seccion = {
+  titulo: string;
+  bajadaTexto?: string;
+  parrafos?: string[];
+  imagen?: BlogImagen;
+  lista?: ListaItem[];
+};
+
+export type ListaItem = {
+  titulo: string;
+  texto: string;
+};
+
+export type BlogImagen = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className: string;
+  caption: string;
 };

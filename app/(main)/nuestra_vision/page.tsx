@@ -1,3 +1,9 @@
+import BajoConstruccion from "@/app/ui/bajo-const";
+
 export default function Page() {
-  return <main></main>;
+  return (
+    <main>
+      <BajoConstruccion />
+    </main>
+  );
 }

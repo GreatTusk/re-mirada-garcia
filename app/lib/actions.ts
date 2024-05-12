@@ -47,15 +47,18 @@ export async function crearContactoVenta(
       message: "Faltan campos. No se pudo enviar la solicitud.",
     };
   }
+
+  const { nombre, boletin, consulta, email, fono } = camposValidados.data;
   try {
     await sql`
             INSERT INTO contactoventa (email, nombre, fono, consulta, boletin)
-            VALUES (${camposValidados.data.email}, ${camposValidados.data.nombre}, ${camposValidados.data.fono},
-                    ${camposValidados.data.consulta}, ${camposValidados.data.boletin})
+            VALUES (${email}, ${nombre}, ${fono},
+                    ${consulta}, ${boletin === null ? "no" : "si"})
         `;
   } catch (error) {
     return { message: "Error en la base de datos" + error };
   }
+
   return {
     errors: {},
     message: "Solicitud enviada exitosamente.",

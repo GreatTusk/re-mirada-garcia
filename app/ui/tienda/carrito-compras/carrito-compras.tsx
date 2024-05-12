@@ -5,15 +5,14 @@ import CodDescuento from "@/app/ui/tienda/carrito-compras/cod-descuento";
 import { Carrito, Producto, Usuario } from "@/app/lib/definitions"; // Como se van a hacer queries, se necesita usar async y await
 
 // Como se van a hacer queries, se necesita usar async y await
-export default async function CarritoCompras() {
+export default async function CarritoCompras({
+  usuario,
+}: {
+  usuario: Usuario;
+}) {
   // La idea es sacar al usuario de la sesión
   // Algo como const usuario = getUserSession();
-  const usuario: Usuario = {
-    id: "1",
-    nombre: "Juan Perez",
-    email: "usuario@mail.com",
-    contrasena: "123456encriptado",
-  };
+
   // Sacar el carrito que tenga el id del usuario
   // const carrito = fetchCarrito(usuario);
   const carrito: Carrito = {
@@ -55,10 +54,11 @@ export default async function CarritoCompras() {
   ];
 
   return (
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    <section className="bg-white py-16 antialiased dark:bg-gray-900">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-          Carrito de compras
+          Hola {usuario.nombre}, de ID {usuario.id} y correo {usuario.email}.
+          Este es su carrito de compras
         </h2>
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
