@@ -145,6 +145,7 @@ export const links = [
   { path: "/", label: "Inicio" },
   { path: "/portafolio", label: "Portafolio" },
   { path: "/tienda", label: "Tienda" },
+  { path: "/tienda/carrito-compras", label: "Carrito" },
   { path: "/blog", label: "Blog" },
   { path: "/nuestra_vision", label: "Nuestra visión" },
   { path: "/legal", label: "Legal" },

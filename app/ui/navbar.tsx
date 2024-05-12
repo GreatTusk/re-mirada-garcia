@@ -60,7 +60,6 @@ export default function NavBar() {
             </ClerkLoading>
           </SignedOut>
           <DarkThemeToggle />
-
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
