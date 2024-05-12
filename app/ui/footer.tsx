@@ -8,7 +8,7 @@ import {
   FooterLinkGroup,
   FooterTitle,
 } from "flowbite-react";
-import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
+import { BsFacebook, BsGithub, BsInstagram } from "react-icons/bs";
 import { footerTheme } from "@/app/lib/themes";
 import Link from "next/link";
 
@@ -19,9 +19,12 @@ export function FooterGarcia() {
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div>
             <FooterBrand
+              theme={{
+                img: "mr-3 h-8 rounded-full",
+              }}
               href="/"
-              src="/icon.png"
-              alt="Flowbite Logo"
+              src="/logo.png"
+              alt="Logo Mirada García"
               name="MiradaGarcía"
             />
           </div>

@@ -1,5 +1,5 @@
 import Blog from "@/app/ui/blog/blog-pa";
-import { posts, primerpost } from "@/app/lib/data";
+import { posts } from "@/app/lib/data";
 import { Cartablog } from "@/app/lib/definitions";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";

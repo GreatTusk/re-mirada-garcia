@@ -11,6 +11,7 @@ export type ImageConfigPortafolio = {
 };
 
 export type PlanFoto = {
+  id: string;
   titulo: string;
   precio: number;
   incluye: Servicios;

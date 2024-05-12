@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef } from "react";
 import { useAnimationOnView } from "@/app/lib/util";
 
 export default function Estadisticas() {

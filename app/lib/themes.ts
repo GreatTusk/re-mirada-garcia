@@ -63,7 +63,7 @@ export const footerTheme: CustomFlowbiteTheme["footer"] = {
   },
   icon: {
     base: "text-gray-500 dark:hover:text-white",
-    size: "h-5 w-5",
+    size: "h-5 w-5 rounded-full",
   },
   title: {
     base: "mb-6 text-sm font-semibold uppercase text-gray-500 dark:text-white",
@@ -78,7 +78,7 @@ export const footerTheme: CustomFlowbiteTheme["footer"] = {
   },
   brand: {
     base: "mb-4 flex items-center sm:mb-0",
-    img: "mr-3 h-8",
+    img: "mr-3 h-8 rounded-full",
     span: "self-center whitespace-nowrap text-2xl font-semibold text-gray-800 dark:text-white",
   },
 };

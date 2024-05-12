@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Producto, ProductoCarrito } from "@/app/lib/definitions";
+import { ProductoCarrito } from "@/app/lib/definitions";
 
 export default function ProductosCarro({
   productos,
