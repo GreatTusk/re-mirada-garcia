@@ -73,9 +73,9 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
       {
         "rounded-l-md": position === "first" || position === "single",
         "rounded-r-md": position === "last" || position === "single",
-        "z-10 bg-primary-500 border-primary-500 text-white dark:bg-gray-800 dark:border-gray-700":
+        "z-10 bg-primary-500 border-primary-500 text-white dark:bg-gray-700 dark:border-gray-700":
           isActive,
-        "hover:bg-gray-100 bg-gray-700 dark:hover:bg-gray-600 dark:text-white dark:border-gray-700":
+        "hover:bg-gray-100 bg-white dark:bg-gray-800 dark:hover:bg-gray-600 dark:text-white dark:border-gray-700":
           !isActive && position !== "middle",
         "text-gray-300 dark:text-white": position === "middle",
       },
@@ -102,7 +102,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
     const className = clsx(
       "flex h-10 w-10 items-center justify-center rounded-md border",
       {
-        "pointer-events-none text-gray-300 dark:text-white dark:border-gray-700":
+        "pointer-events-none text-gray-300 dark:text-gray-500 dark:border-gray-700":
           isDisabled,
         "hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white dark:border-gray-700":
           !isDisabled,
