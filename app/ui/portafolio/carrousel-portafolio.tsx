@@ -12,8 +12,8 @@ export function CarrouselPortafolio({
       <Carousel pauseOnHover>
         {Array.from({ length: 4 }).map((_, index) => (
           <Image
-            src={`${imageConfig.imageFolder}/${index + 1}.jpg`}
-            alt={`${imageConfig.imageFolder}${index + 1}`}
+            src={`${imageConfig.image_folder.folder}/${index + 1}.jpg`}
+            alt={`${imageConfig.image_folder.folder}${index + 1}`}
             key={index}
             width={imageConfig.width}
             height={imageConfig.height}
