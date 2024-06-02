@@ -2,34 +2,11 @@ import { PlanPrecio } from "@/app/ui/tienda/plan-precio";
 import { Metadata } from "next";
 import Marcas from "@/app/ui/tienda/marcas";
 import { PlanFoto } from "@/app/lib/definitions";
+import { fetchPlanesFoto } from "@/app/lib/db";
 import { Suspense } from "react";
 
-/*
- * Esta funcion se encarga de hacer una peticion al
- * backend para obtener los planes de fotos
- */
-async function fetchPlanesFoto() {
-  const res = await fetch(`${process.env.BACKEND_URL}/api/planfoto/`);
-  const data = await res.json();
-
-  return data.map((row: any) => ({
-    id: row.id,
-    titulo: row.titulo,
-    precio: row.precio,
-    incluye: { servicios: string_to_array(row.incluye.servicios) },
-    noIncluye: { servicios: string_to_array(row.no_incluye.servicios) },
-  }));
-}
-
-function string_to_array(string_array: string) {
-  string_array = string_array.replace(/'/g, '"');
-  // Parse the JSON string into a JavaScript array
-  return JSON.parse(string_array);
-}
-
 export default async function Page() {
-  const planesFoto: PlanFoto[] = await fetchPlanesFoto();
-
+  const planesFoto = await fetchPlanesFoto();
   return (
     <main>
       <div className="mx-auto max-w-screen-xl px-4 py-12 lg:px-6">
