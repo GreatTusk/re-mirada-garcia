@@ -29,6 +29,7 @@ export type Cliente = {
 };
 
 export type ItemTestimonio = {
+  id: number;
   cliente: Cliente;
   testimonio: string;
 };
