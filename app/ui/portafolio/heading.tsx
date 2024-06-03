@@ -1,7 +1,7 @@
 import { CarrouselPortafolio } from "@/app/ui/portafolio/carrousel-portafolio";
 import { ItemPortafolio, ItemTestimonio } from "@/app/lib/definitions";
-import React from "react";
 import { Testimonio } from "@/app/ui/portafolio/testimonio";
+import React from "react";
 
 export default function Heading({
   itemPortafolio,
@@ -12,7 +12,7 @@ export default function Heading({
 }) {
   return (
     <div
-      id={itemPortafolio.imagesConfig.imageFolder.substring(5)}
+      id={itemPortafolio.images_config.image_folder.folder.substring(5)}
       className="gap-16 items-center pb-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:pb-16 lg:px-6"
     >
       <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
@@ -22,7 +22,7 @@ export default function Heading({
         <p className="mb-4">{itemPortafolio.descripcion}</p>
       </div>
       <div className="mt-8">
-        <CarrouselPortafolio imageConfig={itemPortafolio.imagesConfig} />
+        <CarrouselPortafolio imageConfig={itemPortafolio.images_config} />
       </div>
       <div className="mt-8 lg:mt-4 max-w-screen-xl lg:col-span-2">
         <Testimonio testimonio={testimonio} />
