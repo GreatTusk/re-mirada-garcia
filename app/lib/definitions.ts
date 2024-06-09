@@ -1,13 +1,27 @@
 export type ItemPortafolio = {
-  imagesConfig: ImageConfigPortafolio;
+  images_config: ImageConfigPortafolio;
   titulo: string;
   descripcion: string;
 };
 
 export type ImageConfigPortafolio = {
-  imageFolder: string;
+  image_folder: ImageFolder;
   width: number;
   height: number;
+};
+
+type ImageFolder = { folder: string };
+
+export type Cliente = {
+  nombre: string;
+  image_url: string;
+  ocupacion: string;
+};
+
+export type ItemTestimonio = {
+  id: number;
+  cliente: Cliente;
+  testimonio: string;
 };
 
 export type PlanFoto = {
@@ -20,17 +34,6 @@ export type PlanFoto = {
 
 export type Servicios = {
   servicios: string[];
-};
-
-export type Cliente = {
-  nombre: string;
-  imageUrl: string;
-  ocupacion: string;
-};
-
-export type ItemTestimonio = {
-  cliente: Cliente;
-  testimonio: string;
 };
 
 export type ContactoVenta = {

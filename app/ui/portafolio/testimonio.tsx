@@ -25,7 +25,7 @@ export function Testimonio({ testimonio }: { testimonio: ItemTestimonio }) {
         <Avatar
           rounded
           size="xs"
-          img={testimonio.cliente.imageUrl}
+          img={testimonio.cliente.image_url}
           alt="profile picture"
         />
         <div className="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
