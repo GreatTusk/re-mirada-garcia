@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { ProductoCarrito } from "@/app/lib/definitions";
 
@@ -6,6 +8,8 @@ export default function ProductosCarro({
 }: {
   productos: ProductoCarrito[];
 }) {
+  function handle() {}
+
   return (
     <div className="space-y-6">
       {productos.map((producto) => (
@@ -78,6 +82,7 @@ export default function ProductosCarro({
                   placeholder=""
                   value={producto.cantidad}
                   required
+                  onChange={handle}
                 />
                 {/*Boton incrementar*/}
                 <button
