@@ -7,6 +7,7 @@ export default function ResumenPedido({
 }: {
   productos: ProductoCarrito[];
 }) {
+
   const precioTotal = productos.reduce((a, b) => a + b.producto_carrito.precio, 0);
   const ahorros = productos.reduce(
     (a, b) => a + (b.producto_carrito.precio - (b.producto_carrito.precio_oferta || 0)),

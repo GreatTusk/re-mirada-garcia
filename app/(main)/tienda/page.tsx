@@ -39,7 +39,7 @@ export default async function Page() {
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
           {planesFoto.map((plan: PlanFoto) => (
-            <div key={plan.titulo}>
+            <div key={plan.titulo} id={plan.id}>
               <Suspense fallback={<div>Loading...</div>} key={plan.titulo}>
                 <PlanPrecio planFoto={plan} />
               </Suspense>

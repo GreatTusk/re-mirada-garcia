@@ -46,7 +46,7 @@ export type ContactoVenta = {
 };
 
 export type Producto = {
-  id: string;
+  id: number;
   nombre: string;
   precio: number;
   imagen_url: string;

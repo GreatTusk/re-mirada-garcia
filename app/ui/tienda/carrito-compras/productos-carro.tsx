@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ProductoCarrito } from "@/app/lib/definitions";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
+import Link from "next/link";
 
 export default function ProductosCarro({
   productos,
@@ -19,7 +20,7 @@ export default function ProductosCarro({
           className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
         >
           <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-            <a href="#" className="shrink-0 md:order-1">
+            <Link href={`/tienda`} className="shrink-0 md:order-1">
               <Image
                 className="h-20 w-20 rounded-2xl"
                 src={producto.producto_carrito.imagen_url}
@@ -41,7 +42,7 @@ export default function ProductosCarro({
               {/*  width={1922}*/}
               {/*  height={1082}*/}
               {/*/>*/}
-            </a>
+            </Link>
 
             {/* Counter input */}
             <label htmlFor="counter-input" className="sr-only">
