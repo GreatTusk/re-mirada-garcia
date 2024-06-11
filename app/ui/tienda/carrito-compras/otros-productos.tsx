@@ -21,7 +21,7 @@ export default function OtrosProductos({
             <a href="#" className="overflow-hidden rounded">
               <Image
                 className="h-20 w-20 rounded-2xl"
-                src={producto.imagenUrl}
+                src={producto.imagen_url}
                 alt={producto.nombre}
                 width={1922}
                 height={1082}
