@@ -1,11 +1,37 @@
-import { PlanFoto } from "@/app/lib/definitions";
+import { PlanFoto, Usuario } from "@/app/lib/definitions";
 import { Button, Card } from "flowbite-react";
 import { ContactoVentas } from "@/app/ui/tienda/contacto";
 import Link from "next/link";
+import { currentUser } from "@clerk/nextjs/server";
 
-export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
+export async function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
+  const user = await currentUser();
+
   function formatPriceWithSeparator(price: number) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  async function addToCart(producto_id: number, user_id: string) {
+    const producto_carrito = {
+      carrito: user_id,
+      producto: producto_id,
+      cantidad: 1,
+    };
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/api/register_usuario/?format=json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(producto_carrito),
+      },
+    );
+    if (response.status !== 201) {
+      throw new Error(response.statusText);
+    }
+    return await response.json();
   }
 
   return (
@@ -68,7 +94,12 @@ export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
       </ul>
       <ContactoVentas />
       <Link href="/tienda/carrito-compras">
-        <Button outline gradientDuoTone="purpleToBlue" className="w-full">
+        <Button
+          outline
+          gradientDuoTone="purpleToBlue"
+          className="w-full"
+          onClick={() => addToCart(Number(planFoto.id), user.id)}
+        >
           Comprar
         </Button>
       </Link>
