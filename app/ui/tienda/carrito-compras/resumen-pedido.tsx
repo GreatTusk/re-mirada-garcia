@@ -1,14 +1,15 @@
 import { ProductoCarrito } from "@/app/lib/definitions";
 import Link from "next/link";
+import { formatPriceWithSeparator } from "@/app/lib/util_server";
 
 export default function ResumenPedido({
   productos,
 }: {
   productos: ProductoCarrito[];
 }) {
-  const precioTotal = productos.reduce((a, b) => a + b.producto.precio, 0);
+  const precioTotal = productos.reduce((a, b) => a + b.producto_carrito.precio, 0);
   const ahorros = productos.reduce(
-    (a, b) => a + (b.producto.precioOferta || 0),
+    (a, b) => a + (b.producto_carrito.precio - (b.producto_carrito.precio_oferta || 0)),
     0,
   );
 
@@ -24,7 +25,7 @@ export default function ResumenPedido({
               Precio original
             </dt>
             <dd className="text-base font-medium text-gray-900 dark:text-white">
-              ${precioTotal}
+              ${formatPriceWithSeparator(precioTotal)}
             </dd>
           </dl>
           {ahorros > 0 && (
@@ -33,7 +34,7 @@ export default function ResumenPedido({
                 Ahorros
               </dt>
               <dd className="text-base font-medium text-green-600">
-                -${ahorros}
+                -${formatPriceWithSeparator(ahorros)}
               </dd>
             </dl>
           )}
@@ -43,7 +44,7 @@ export default function ResumenPedido({
             Total
           </dt>
           <dd className="text-base font-bold text-gray-900 dark:text-white">
-            ${precioTotal - ahorros}
+            ${formatPriceWithSeparator(precioTotal - ahorros)}
           </dd>
         </dl>
       </div>

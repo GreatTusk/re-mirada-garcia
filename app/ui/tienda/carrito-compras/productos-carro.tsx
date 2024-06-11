@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ProductoCarrito } from "@/app/lib/definitions";
+import { formatPriceWithSeparator } from "@/app/lib/util_server";
 
 export default function ProductosCarro({
   productos,
@@ -14,15 +15,15 @@ export default function ProductosCarro({
     <div className="space-y-6">
       {productos.map((producto) => (
         <div
-          key={producto.producto.id}
+          key={producto.producto_carrito.id}
           className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
         >
           <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
             <a href="#" className="shrink-0 md:order-1">
               <Image
                 className="h-20 w-20 rounded-2xl"
-                src={producto.producto.imagenUrl}
-                alt={producto.producto.nombre}
+                src={producto.producto_carrito.imagen_url}
+                alt={producto.producto_carrito.nombre}
                 width={1922}
                 height={1082}
               />
@@ -111,7 +112,7 @@ export default function ProductosCarro({
               {/* Precio */}
               <div className="text-end md:order-4 md:w-32">
                 <p className="text-base font-bold text-gray-900 dark:text-white">
-                  ${producto.producto.precio}
+                  ${formatPriceWithSeparator(producto.producto_carrito.precio)}
                 </p>
               </div>
             </div>
@@ -121,7 +122,7 @@ export default function ProductosCarro({
                 href="#"
                 className="text-base font-medium text-gray-900 hover:underline dark:text-white"
               >
-                {producto.producto.nombre}
+                {producto.producto_carrito.nombre}
               </a>
               {/* Botones favorito y remover */}
               <div className="flex items-center gap-4">

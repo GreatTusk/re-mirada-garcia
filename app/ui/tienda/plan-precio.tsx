@@ -3,36 +3,12 @@ import { Button, Card } from "flowbite-react";
 import { ContactoVentas } from "@/app/ui/tienda/contacto";
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
+import ComprarBoton from "./comprar-boton";
+import { formatPriceWithSeparator } from "@/app/lib/util_server";
 
 export async function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
   const user = await currentUser();
-
-  function formatPriceWithSeparator(price: number) {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-
-  async function addToCart(producto_id: number, user_id: string) {
-    const producto_carrito = {
-      carrito: user_id,
-      producto: producto_id,
-      cantidad: 1,
-    };
-
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/api/register_usuario/?format=json`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(producto_carrito),
-      },
-    );
-    if (response.status !== 201) {
-      throw new Error(response.statusText);
-    }
-    return await response.json();
-  }
+  const user_id = user?.id;
 
   return (
     <Card className="max-w-sm">
@@ -93,16 +69,33 @@ export async function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
         ))}
       </ul>
       <ContactoVentas />
-      <Link href="/tienda/carrito-compras">
-        <Button
-          outline
-          gradientDuoTone="purpleToBlue"
-          className="w-full"
-          onClick={() => addToCart(Number(planFoto.id), user.id)}
-        >
-          Comprar
-        </Button>
-      </Link>
+      <ComprarBoton user_id={user_id} producto_id={planFoto.id}/>
     </Card>
   );
+}
+
+export async function addToCart(producto_id: number, user_id: string | undefined) {
+
+  if (user_id !== null) {
+    const producto_carrito = {
+      carrito: user_id,
+      producto: producto_id,
+      cantidad: 1,
+    };
+
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/api/get_carrito_productos/?format=json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(producto_carrito),
+      },
+    );
+    if (response.status !== 201) {
+      return;
+    }
+    return await response.json();
+  }
 }

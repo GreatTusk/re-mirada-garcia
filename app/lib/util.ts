@@ -5,6 +5,10 @@ export function contieneNumber(str: string) {
   return /\d/.test(str);
 }
 
+export function formatPriceWithSeparator(price: number) {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.

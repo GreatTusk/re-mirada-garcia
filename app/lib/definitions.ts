@@ -49,11 +49,12 @@ export type Producto = {
   id: string;
   nombre: string;
   precio: number;
-  imagenUrl: string;
-  precioOferta?: number;
+  imagen_url: string;
+  precio_oferta?: number;
 };
+
 export type ProductoCarrito = {
-  producto: Producto;
+  producto_carrito: Producto;
   cantidad: number;
 };
 
