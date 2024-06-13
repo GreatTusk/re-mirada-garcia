@@ -1,7 +1,4 @@
-import {
-  Cartablog,
-  Seccion,
-} from "@/app/lib/definitions";
+import { Cartablog, Seccion } from "@/app/lib/definitions";
 
 export const links = [
   { path: "/", label: "Inicio" },

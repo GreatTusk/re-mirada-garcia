@@ -1,58 +1,26 @@
 import CarritoCompras from "@/app/ui/tienda/carrito-compras/carrito-compras";
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { Usuario } from "@/app/lib/definitions";
+import { currentUser } from "@clerk/nextjs/server";
+import { registrarUsuario, usuarioExists } from "@/app/lib/db";
+
+/*
+ * Es imposible acceder a esta página si no se está autenticado,
+ * por lo que se puede asumir que el usuario es válido
+ */
 
 export default async function Page() {
   // Obtener la info del usuario
   const user = await currentUser();
-
-  let usuario: Usuario = {
-    id: user?.id || "",
-    nombre: user?.fullName || "",
-    email: user?.emailAddresses?.[0]?.emailAddress || "",
-  };
-
-  // Mandarla a la base de datos
-  try {
-    await registrarUsuario(usuario);
-  } catch (error) {
-  } finally {
+  const userId = user?.id;
+  // Registrar el usuario si no existe
+  if (!(await usuarioExists(userId))) {
+    await registrarUsuario({
+      id: userId || "",
+      nombre: user?.fullName || "",
+      email: user?.emailAddresses?.[0]?.emailAddress || "",
+    });
   }
-
-  return <CarritoCompras usuario={usuario} />;
+  // Solo se necesita el id del usuario
+  return <CarritoCompras usuarioId={userId || ""} />;
 }
 
-async function registrarUsuario(userData: Usuario) {
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/api/register_usuario/?format=json`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    },
-  );
-  if (response.status !== 201) {
-    throw new Error(response.statusText);
-  }
-  return await response.json();
-}
-
-// async function crearCarrito(userData: Usuario) {
-//   const response = await fetch(
-//     `${process.env.BACKEND_URL}/api/carrito/?format=json`,
-//     {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(userData),
-//     },
-//   );
-//
-//   if (response.status !== 201) {
-//     throw new Error(response.statusText);
-//   }
-//   return await response.json();
-// }
+export const dynamic = "force-dynamic";

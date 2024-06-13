@@ -1,9 +1,15 @@
 "use client";
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import { addToCart } from "./plan-precio";
+import { addToCart } from "@/app/lib/db";
 
-export default function ComprarBoton({ producto_id, user_id }: { producto_id: string, user_id: string | undefined }) {
+export default function ComprarBoton({
+  producto_id,
+  user_id,
+}: {
+  producto_id: string;
+  user_id: string | undefined;
+}) {
   return (
     <Link href="/tienda/carrito-compras">
       <Button

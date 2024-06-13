@@ -54,6 +54,7 @@ export type Producto = {
 };
 
 export type ProductoCarrito = {
+  id: string;
   producto_carrito: Producto;
   cantidad: number;
 };
