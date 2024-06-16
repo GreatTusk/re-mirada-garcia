@@ -1,5 +1,3 @@
-"use client";
-
 import { ProductoCarrito } from "@/app/lib/definitions";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,33 +5,43 @@ import { formatPriceWithSeparator } from "@/app/lib/util_server";
 import { useState } from "react";
 import { deleteProductoCarrito, updateProductoCarrito } from "@/app/lib/db";
 import { useRouter } from "next/navigation";
+import { useCarritoContext } from "@/app/contexts/carrito_context";
 
 export default function CarritoProducto({
   producto,
-  usuarioId,
 }: {
   producto: ProductoCarrito;
-  usuarioId: string;
 }) {
-  const router = useRouter();
+  const { carrito, setCarrito } = useCarritoContext();
   const [cantidad, setCantidad] = useState(producto.cantidad);
+  const productoIndex = carrito.findIndex((item) => item.id === producto.id);
+  const precioTotal = carrito[productoIndex].producto_carrito.precio * cantidad;
+  function updateCarritoItem(id: string, newData: ProductoCarrito) {
+    setCarrito(carrito.map((item) => (item.id === id ? newData : item)));
+  }
+
+  function deleteCarritoItem(id: string) {
+    setCarrito(carrito.filter((item) => item.id !== id));
+  }
 
   async function handleDelete() {
     await deleteProductoCarrito(producto.id);
-    router.refresh();
+    deleteCarritoItem(producto.id);
   }
 
   async function handleIncreaseUpdate() {
     const newCantidad = cantidad + 1;
     setCantidad(newCantidad);
-    await updateProductoCarrito(usuarioId, producto.id, newCantidad);
+    updateCarritoItem(producto.id, { ...producto, cantidad: newCantidad });
+    await updateProductoCarrito(producto.id, newCantidad);
   }
 
   async function handleDecreaseUpdate() {
     if (cantidad > 1) {
       const newCantidad = cantidad - 1;
       setCantidad(newCantidad);
-      await updateProductoCarrito(usuarioId, producto.id, newCantidad);
+      updateCarritoItem(producto.id, { ...producto, cantidad: newCantidad });
+      await updateProductoCarrito(producto.id, newCantidad);
     }
   }
 
@@ -98,7 +106,7 @@ export default function CarritoProducto({
 
             {/* Cantidad */}
             <div className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white">
-              {cantidad}
+              {carrito[productoIndex].cantidad}
             </div>
             {/*Boton incrementar*/}
             <button
@@ -129,10 +137,7 @@ export default function CarritoProducto({
           {/* Precio */}
           <div className="text-end md:order-4 md:w-32">
             <p className="text-base font-bold text-gray-900 dark:text-white">
-              $
-              {formatPriceWithSeparator(
-                producto.producto_carrito.precio * cantidad,
-              )}
+              ${formatPriceWithSeparator(precioTotal)}
             </p>
           </div>
         </div>

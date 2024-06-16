@@ -1,21 +1,19 @@
-import { ProductoCarrito } from "@/app/lib/definitions";
 import Link from "next/link";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
+import { useCarritoContext } from "@/app/contexts/carrito_context";
 
-export default function ResumenPedido({
-  productos,
-}: {
-  productos: ProductoCarrito[];
-}) {
+export default function ResumenPedido() {
+  const { carrito, setCarrito } = useCarritoContext();
 
-  // Quizás se podría hacer el calculo en el backend
-  const precioTotal = productos.reduce(
-    (a, b) => a + b.producto_carrito.precio,
+  const precioTotal = carrito.reduce(
+    (a, b) => a + b.cantidad * b.producto_carrito.precio,
     0,
   );
-  const ahorros = productos.reduce(
+  const ahorros = carrito.reduce(
     (a, b) =>
-      a + (b.producto_carrito.precio - (b.producto_carrito.precio_oferta || 0)),
+      a +
+      b.cantidad *
+        (b.producto_carrito.precio - (b.producto_carrito.precio_oferta || 0)),
     0,
   );
 
@@ -56,7 +54,7 @@ export default function ResumenPedido({
       </div>
 
       <Link
-        href="/tienda/checkout"
+        href="carrito-compras/checkout"
         className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
       >
         Continuar a la compra

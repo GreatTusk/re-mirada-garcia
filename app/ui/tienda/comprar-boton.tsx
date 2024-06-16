@@ -16,7 +16,7 @@ export default function ComprarBoton({
         outline
         gradientDuoTone="purpleToBlue"
         className="w-full"
-        onClick={() => addToCart(Number(producto_id), user_id)}
+        // onClick={() => addToCart(Number(producto_id), user_id)}
       >
         Comprar
       </Button>

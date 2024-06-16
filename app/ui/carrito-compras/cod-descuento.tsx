@@ -1,7 +1,12 @@
 export default function CodDescuento() {
   return (
     <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-      <form className="space-y-4">
+      <form
+        className="space-y-4"
+        action={(formData) => {
+          console.log(formData);
+        }}
+      >
         <div>
           <label
             htmlFor="voucher"

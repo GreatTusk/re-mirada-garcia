@@ -1,5 +1,5 @@
 import { ProductoCarrito, Usuario } from "@/app/lib/definitions";
-import { unstable_noStore as noStore } from "next/cache";
+
 export async function fetchCarritoProductos(userId: string) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,
@@ -31,45 +31,31 @@ export async function registrarUsuario(userData: Usuario) {
   return await response.json();
 }
 
-export async function addToCart(
-  producto_id: number,
-  user_id: string | undefined,
-) {
-  if (user_id !== undefined) {
-    const producto_carrito = {
-      carrito: user_id,
-      producto: producto_id,
-      cantidad: 1,
-    };
-
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/api/carrito_productos/?format=json`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(producto_carrito),
+export async function addToCart(producto: {
+  id: string;
+  producto_carrito: number;
+  cantidad: number;
+}) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
-    if (response.status !== 201) {
-      return;
-    }
-    return await response.json();
+      body: JSON.stringify(producto),
+    },
+  );
+  if (response.status !== 201) {
+    return;
   }
+  return await response.json();
 }
 
 export async function updateProductoCarrito(
-  usuarioId: string,
   productoId: string,
   cantidad: number,
 ) {
-  const nuevo_producto = {
-    carrito: usuarioId,
-    producto: productoId,
-    cantidad: cantidad,
-  };
-
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/`,
     {
@@ -77,7 +63,10 @@ export async function updateProductoCarrito(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(nuevo_producto),
+      body: JSON.stringify({
+        producto: productoId,
+        cantidad: cantidad,
+      }),
     },
   );
   return await response.json();
@@ -93,6 +82,13 @@ export async function deleteProductoCarrito(productoCarritoId: string) {
       },
       body: JSON.stringify({ producto: productoCarritoId }),
     },
+  );
+  return await response.json();
+}
+
+export async function fetchProductos() {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/producto/?format=json`,
   );
   return await response.json();
 }
