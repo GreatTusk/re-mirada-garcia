@@ -75,7 +75,7 @@ export default function OtrosProductos() {
         Nuestros productos
       </h3>
       {/*Producto*/}
-      <div className="mt-6 grid grid-rows-3 grid-cols-1 md:grid-cols-3 md:gridro gap-4 sm:mt-8">
+      <div className="mt-6 grid grid-rows-3 grid-cols-1 md:grid-cols-3 md:grid-rows-1 gap-4 sm:mt-8">
         {productos.map((producto) => (
           <div
             key={producto.id}
