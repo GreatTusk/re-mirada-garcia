@@ -7,6 +7,13 @@ export async function fetchCarritoProductos(userId: string) {
   return await response.json();
 }
 
+export async function fetchCarritoProductosClient(userId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,
+  );
+  return await response.json();
+}
+
 export async function usuarioExists(userId: string | undefined) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/usuario/${userId}/?format=json`,
@@ -32,7 +39,7 @@ export async function registrarUsuario(userData: Usuario) {
 }
 
 export async function addToCart(producto: {
-  id: string;
+  id_usuario: string;
   producto_carrito: number;
   cantidad: number;
 }) {
@@ -73,6 +80,7 @@ export async function updateProductoCarrito(
 }
 
 export async function deleteProductoCarrito(productoCarritoId: string) {
+  console.log(productoCarritoId)
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/`,
     {

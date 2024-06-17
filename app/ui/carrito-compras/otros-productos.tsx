@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Producto, ProductoCarrito } from "@/app/lib/definitions";
 import useSWR from "swr";
-import { addToCart, updateProductoCarrito } from "@/app/lib/db";
+import { addToCart, fetchCarritoProductos, fetchCarritoProductosClient, updateProductoCarrito } from "@/app/lib/db";
 import { useAuth } from "@clerk/nextjs";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { OtrosProductosSkeleton } from "../skeletons";
 
 // @ts-ignore
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
@@ -20,8 +21,7 @@ export default function OtrosProductos() {
   const { carrito, setCarrito } = useCarritoContext();
   const router = useRouter();
   if (error) return <div>Failed to load</div>;
-  // TODO: Preparar un skeleton
-  if (!productos) return <div>Loading...</div>;
+  if (!productos) return <OtrosProductosSkeleton />;
 
   async function handleAddToCart(producto: Producto) {
     if (!userId) {
@@ -44,17 +44,22 @@ export default function OtrosProductos() {
         return;
       }
     }
+    // Pasos: crear el usuario(dejar que se genere el id)
+    // Obtener ese id y 
 
-    const productoToAdd: ProductoCarrito = {
-      id: userId,
+    const productoToAdd = {
+      id_usuario: userId,
       cantidad: 1,
-      producto_carrito: producto,
+      producto_carrito: producto.id,
     };
 
-    // Añadir el producto al carrito
-    const newCarrito = [...carrito, productoToAdd];
-    setCarrito(newCarrito);
-    await addToCart({ ...productoToAdd, producto_carrito: producto.id });
+    // Añadir el producto (dejar que se genere el id)
+    await addToCart(productoToAdd);
+    // Obtenemos el carrito entero de nuevo
+    const nuevoCarrito = await fetchCarritoProductosClient(userId);
+    // Actualizamos la interfaz con el nuevo carrito
+    setCarrito(nuevoCarrito);
+    
   }
 
   const descripciones = [
@@ -65,12 +70,12 @@ export default function OtrosProductos() {
 
   // Rest of the component...
   return (
-    <div className="hidden xl:mt-8 xl:block">
+    <div className="mt-8">
       <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
         Nuestros productos
       </h3>
       {/*Producto*/}
-      <div className="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
+      <div className="mt-6 grid grid-rows-3 grid-cols-1 md:grid-cols-3 md:gridro gap-4 sm:mt-8">
         {productos.map((producto) => (
           <div
             key={producto.id}

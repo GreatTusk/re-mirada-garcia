@@ -16,6 +16,7 @@ export default function CarritoProducto({
   const [cantidad, setCantidad] = useState(producto.cantidad);
   const productoIndex = carrito.findIndex((item) => item.id === producto.id);
   const precioTotal = carrito[productoIndex].producto_carrito.precio * cantidad;
+  
   function updateCarritoItem(id: string, newData: ProductoCarrito) {
     setCarrito(carrito.map((item) => (item.id === id ? newData : item)));
   }
@@ -25,8 +26,8 @@ export default function CarritoProducto({
   }
 
   async function handleDelete() {
-    await deleteProductoCarrito(producto.id);
     deleteCarritoItem(producto.id);
+    await deleteProductoCarrito(producto.id);
   }
 
   async function handleIncreaseUpdate() {

@@ -33,3 +33,38 @@ export function ProductoCarritoSkeleton() {
     </div>
   );
 }
+
+export function OtrosProductosSkeleton() {
+
+  const skeletonData = [
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+  ];
+
+  return (
+    <div className={`mt-6 grid grid-cols-3 gap-4 sm:mt-8`}>
+      {skeletonData.map((_, index) => (
+        <div
+          key={index}
+          className={`relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6 ${shimmer}`}
+        >
+          <div className="space-y-6">
+            <div className="size-40 md:h-20 md:w-20 rounded-2xl bg-gray-200 dark:bg-gray-700" />
+            <div className="space-y-4">
+              <div className="h-6 w-5/6 bg-gray-200 dark:bg-gray-700" />
+              <div className="h-8 w-5/6 bg-gray-200 dark:bg-gray-700" />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="h-6 w-8 rounded-lg bg-gray-200 dark:bg-gray-700" />
+                <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700" />
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
