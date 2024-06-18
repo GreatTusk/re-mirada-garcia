@@ -6,6 +6,7 @@ import { useState } from "react";
 import { deleteProductoCarrito, updateProductoCarrito } from "@/app/lib/db";
 import { useRouter } from "next/navigation";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
+import ModalBorrar from "./modal-borrar";
 
 export default function CarritoProducto({
   producto,
@@ -14,9 +15,10 @@ export default function CarritoProducto({
 }) {
   const { carrito, setCarrito } = useCarritoContext();
   const [cantidad, setCantidad] = useState(producto.cantidad);
+  const [openConfirmation, setOpenConfirmation] = useState(false);
   const productoIndex = carrito.findIndex((item) => item.id === producto.id);
   const precioTotal = carrito[productoIndex].producto_carrito.precio * cantidad;
-  
+
   function updateCarritoItem(id: string, newData: ProductoCarrito) {
     setCarrito(carrito.map((item) => (item.id === id ? newData : item)));
   }
@@ -24,7 +26,6 @@ export default function CarritoProducto({
   function deleteCarritoItem(id: string) {
     setCarrito(carrito.filter((item) => item.id !== id));
   }
-
   async function handleDelete() {
     deleteCarritoItem(producto.id);
     await deleteProductoCarrito(producto.id);
@@ -175,9 +176,14 @@ export default function CarritoProducto({
               </svg>
               Añadir a favoritos
             </button>
-
+            <ModalBorrar
+              openConfirmation={openConfirmation}
+              setOpenConfirmation={setOpenConfirmation}
+              handleDelete={handleDelete}
+            />
             <button
-              onClick={handleDelete}
+              // onClick={handleDelete}
+              onClick={() => setOpenConfirmation(true)}
               type="button"
               className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
             >
