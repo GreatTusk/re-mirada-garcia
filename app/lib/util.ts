@@ -1,8 +1,25 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { ProductoCarrito } from "@/app/lib/definitions";
 
 export function contieneNumber(str: string) {
   return /\d/.test(str);
+}
+
+export function precioTotal(carrito: ProductoCarrito[]) {
+  return carrito.reduce(
+    (a, b) => a + b.cantidad * b.producto_carrito.precio,
+    0,
+  );
+}
+export function ahorros(carrito: ProductoCarrito[]) {
+  return carrito.reduce(
+    (a, b) =>
+      a +
+      b.cantidad *
+        (b.producto_carrito.precio - (b.producto_carrito.precio_oferta || 0)),
+    0,
+  );
 }
 
 export function formatPriceWithSeparator(price: number) {

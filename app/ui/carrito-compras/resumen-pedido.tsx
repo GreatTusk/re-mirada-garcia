@@ -1,21 +1,14 @@
 import Link from "next/link";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
+import { ProductoCarrito } from "@/app/lib/definitions";
+import { ahorros, precioTotal } from "@/app/lib/util";
 
 export default function ResumenPedido() {
   const { carrito, setCarrito } = useCarritoContext();
 
-  const precioTotal = carrito.reduce(
-    (a, b) => a + b.cantidad * b.producto_carrito.precio,
-    0,
-  );
-  const ahorros = carrito.reduce(
-    (a, b) =>
-      a +
-      b.cantidad *
-        (b.producto_carrito.precio - (b.producto_carrito.precio_oferta || 0)),
-    0,
-  );
+  const precio_total = precioTotal(carrito);
+  const ahorro = ahorros(carrito);
 
   return (
     <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
@@ -29,16 +22,16 @@ export default function ResumenPedido() {
               Precio original
             </dt>
             <dd className="text-base font-medium text-gray-900 dark:text-white">
-              ${formatPriceWithSeparator(precioTotal)}
+              ${formatPriceWithSeparator(precio_total)}
             </dd>
           </dl>
-          {ahorros > 0 && (
+          {ahorro > 0 && (
             <dl className="flex items-center justify-between gap-4">
               <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
                 Ahorros
               </dt>
               <dd className="text-base font-medium text-green-600">
-                -${formatPriceWithSeparator(ahorros)}
+                -${formatPriceWithSeparator(ahorro)}
               </dd>
             </dl>
           )}
@@ -48,7 +41,7 @@ export default function ResumenPedido() {
             Total
           </dt>
           <dd className="text-base font-bold text-gray-900 dark:text-white">
-            ${formatPriceWithSeparator(precioTotal - ahorros)}
+            ${formatPriceWithSeparator(precio_total - ahorro)}
           </dd>
         </dl>
       </div>
