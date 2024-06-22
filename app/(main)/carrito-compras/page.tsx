@@ -7,7 +7,6 @@ import CarritoCompras from "@/app/ui/carrito-compras/carrito-compras";
 
 export default async function Page() {
   // Obtener la info del usuario
-
   // Solo se necesita el id del usuario
   return <CarritoCompras />;
 }

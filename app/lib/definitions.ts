@@ -104,3 +104,23 @@ export type BlogImagen = {
   className: string;
   caption: string;
 };
+
+export type Region = {
+  region: string;
+  comunas: string[];
+};
+
+export type Pedido = {
+  id: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  direccion: string;
+  region: string;
+  comuna: string;
+  telefono: string;
+  descripcion: string;
+  fecha: string;
+  metodo_pago: string;
+  carrito: Carrito;
+};

@@ -1,6 +1,6 @@
 import { Button, Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 import { HiMail, HiPhone, HiUser } from "react-icons/hi";
-import { crearContactoVenta, State } from "@/app/lib/actions";
+import { crearContactoVenta, ContactState } from "@/app/lib/actions";
 import { useState } from "react";
 
 export default function FormularioContacto({
@@ -10,7 +10,7 @@ export default function FormularioContacto({
   setOpenFormModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSuccessModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [initialState, setInitialState] = useState<State>({
+  const [initialState, setInitialState] = useState<ContactState>({
     message: null,
     errors: {},
   });
@@ -18,7 +18,7 @@ export default function FormularioContacto({
   return (
     <form
       action={async (formData) => {
-        const newState: State = await crearContactoVenta(
+        const newState: ContactState = await crearContactoVenta(
           initialState,
           formData,
         );
