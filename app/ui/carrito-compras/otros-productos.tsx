@@ -1,7 +1,11 @@
 import Image from "next/image";
-import { Producto, ProductoCarrito } from "@/app/lib/definitions";
+import { Producto } from "@/app/lib/definitions";
 import useSWR from "swr";
-import { addToCart, fetchCarritoProductos, fetchCarritoProductosClient, updateProductoCarrito } from "@/app/lib/db";
+import {
+  addToCart,
+  fetchCarritoProductosClient,
+  updateProductoCarrito,
+} from "@/app/lib/db";
 import { useAuth } from "@clerk/nextjs";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
 import { useRouter } from "next/navigation";
@@ -45,13 +49,14 @@ export default function OtrosProductos() {
       }
     }
     // Pasos: crear el usuario(dejar que se genere el id)
-    // Obtener ese id y 
+    // Obtener ese id y
 
     const productoToAdd = {
       id_usuario: userId,
       cantidad: 1,
       producto_carrito: producto.id,
     };
+    console.log(productoToAdd);
 
     // Añadir el producto (dejar que se genere el id)
     await addToCart(productoToAdd);
@@ -59,7 +64,6 @@ export default function OtrosProductos() {
     const nuevoCarrito = await fetchCarritoProductosClient(userId);
     // Actualizamos la interfaz con el nuevo carrito
     setCarrito(nuevoCarrito);
-    
   }
 
   const descripciones = [

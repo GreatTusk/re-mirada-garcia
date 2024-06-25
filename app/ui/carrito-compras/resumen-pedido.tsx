@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
-import { ProductoCarrito } from "@/app/lib/definitions";
 import { ahorros, precioTotal } from "@/app/lib/util";
 
 export default function ResumenPedido() {
   const { carrito, setCarrito } = useCarritoContext();
 
-  const precio_total = precioTotal(carrito);
-  const ahorro = ahorros(carrito);
+  const precio_total = precioTotal(carrito.carrito_producto);
+  const ahorro = ahorros(carrito.carrito_producto);
 
   return (
     <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">

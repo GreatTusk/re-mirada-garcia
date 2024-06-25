@@ -17,7 +17,7 @@ export default function CarritoCompras() {
     const { carrito, setCarrito } = useCarritoContext();
     return (
       <div className="space-y-6">
-        {carrito.map((producto: ProductoCarrito) => (
+        {carrito.carrito_producto.map((producto: ProductoCarrito) => (
           <Suspense key={producto.id} fallback={<ProductoCarritoSkeleton />}>
             {/*This is a client component because it requires interactivity*/}
             <CarritoProducto producto={producto} />

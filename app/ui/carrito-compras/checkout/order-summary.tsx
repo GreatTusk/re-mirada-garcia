@@ -1,21 +1,15 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
-import { ahorros, formatPriceWithSeparator, precioTotal } from "@/app/lib/util";
 import { useEffect, useState } from "react";
 import ProductosPedido from "@/app/ui/carrito-compras/checkout/productos-pedido";
 import ResumenPedido from "@/app/ui/carrito-compras/checkout/resumen-pedido";
-import { Modal } from "flowbite-react";
 import InfoFacturacionModal from "@/app/ui/carrito-compras/checkout/info-facturacion-modal";
-import * as https from "node:https";
-import * as url from "node:url";
-import { Region } from "@/app/lib/definitions";
+import { Region, Usuario } from "@/app/lib/definitions";
+import { fetchUsuario } from "@/app/lib/db";
 
 export default function OrderSummary() {
   const { carrito, setCarrito } = useCarritoContext();
   const [openModal, setOpenModal] = useState(false);
-
   const [comunasRegiones, setComunasRegiones] = useState<Region[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +25,6 @@ export default function OrderSummary() {
 
     fetchData();
   }, []);
-
   return (
     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
       <form className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -45,11 +38,10 @@ export default function OrderSummary() {
             </h4>
             <dl>
               <dt className="text-base font-medium text-gray-900 dark:text-white">
-                Individual
+                Cliente
               </dt>
               <dd className="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">
-                Bonnie Green - +1 234 567 890, San Francisco, California, United
-                States, 3454, Scott Street
+                {`${carrito.usuario.first_name} ${carrito.usuario.last_name == null ? "" : carrito.usuario.last_name} - ${carrito.usuario.phone_number == "" ? "número de teléfono no encontrado" : carrito.usuario.phone_number} - ${carrito.usuario.email}`}
               </dd>
             </dl>
             <button
@@ -67,6 +59,8 @@ export default function OrderSummary() {
             setOpenModal={setOpenModal}
             comunasRegiones={comunasRegiones}
             loading={loading}
+            carrito={carrito}
+            setCarrito={setCarrito}
           />
           <div className="mt-6 sm:mt-8">
             {/*Items del carrito*/}

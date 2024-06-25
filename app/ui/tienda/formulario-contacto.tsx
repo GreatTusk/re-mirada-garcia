@@ -1,6 +1,6 @@
 import { Button, Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 import { HiMail, HiPhone, HiUser } from "react-icons/hi";
-import { crearContactoVenta, ContactState } from "@/app/lib/actions";
+import { ContactState, crearContactoVenta } from "@/app/lib/actions";
 import { useState } from "react";
 
 export default function FormularioContacto({

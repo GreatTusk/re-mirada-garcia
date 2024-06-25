@@ -1,22 +1,39 @@
-import { Checkbox, Dropdown, Modal, Select, Textarea } from "flowbite-react";
-import { Region } from "@/app/lib/definitions";
+import {
+  Checkbox,
+  Datepicker,
+  Dropdown,
+  Modal,
+  Textarea,
+} from "flowbite-react";
+import { Carrito, Region, Usuario } from "@/app/lib/definitions";
 import React, { useState } from "react";
 import { formatRut, isValidRut } from "@/app/lib/util";
 import { countriesJSON } from "@/app/lib/data";
-import { crearContactoVenta, ContactState } from "@/app/lib/actions";
+import {
+  ContactState,
+  crearContactoVenta,
+  crearPedido,
+  PedidoState,
+} from "@/app/lib/actions";
+import { fetchPedido } from "@/app/lib/db";
 
 export default function InfoFacturacionModal({
   openModal,
   setOpenModal,
   comunasRegiones,
   loading,
+  carrito,
+  setCarrito,
 }: {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   comunasRegiones: Region[];
   loading: boolean;
+  carrito: Carrito;
+  setCarrito: React.Dispatch<React.SetStateAction<Carrito>>;
 }) {
   const [index, setIndex] = useState(0);
+  const usuario = carrito.usuario;
   const [empresa, setEmpresa] = useState(false);
   const [rut, setRut] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -24,7 +41,7 @@ export default function InfoFacturacionModal({
   const [country, setCountry] = useState(
     `${initialCountry.emoji}${initialCountry.dial_code}`,
   );
-  const [initialState, setInitialState] = useState<ContactState>({
+  const [initialState, setInitialState] = useState<PedidoState>({
     message: null,
     errors: {},
   });
@@ -48,6 +65,7 @@ export default function InfoFacturacionModal({
     return;
   }
 
+  const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   return (
     <Modal
       show={openModal}
@@ -68,15 +86,27 @@ export default function InfoFacturacionModal({
         <form
           className="p-4 md:p-5"
           action={async (formData) => {
-            console.log("Form data", formData);
-            // const newState: ContactState = await crearContactoVenta(
-            //   initialState,
-            //   formData,
-            // );
-            // setInitialState(newState);
-            // if (newState.message === "Solicitud enviada exitosamente.") {
-            //   setOpenModal(false);
-            // }
+            const newState: ContactState = await crearPedido(
+              initialState,
+              formData,
+              usuario.id,
+            );
+            setInitialState(newState);
+            if (newState.message?.charAt(0) === "S") {
+              const user = await fetchPedido(newState.message.split(".")[1]);
+              console.log(user);
+              setCarrito({
+                ...carrito,
+                usuario: {
+                  id: usuario.id,
+                  first_name: user.first_name,
+                  last_name: user.last_name,
+                  email: user.email,
+                  phone_number: user.phone_number,
+                },
+              });
+              setOpenModal(false);
+            }
           }}
         >
           <Modal.Body>
@@ -84,12 +114,11 @@ export default function InfoFacturacionModal({
               <div className="flex items-center gap-4 sm:col-span-2 pt-0.5">
                 <div className="flex items-center">
                   <Checkbox
-                    id="company_address_billing_modal"
+                    name="company_address_billing_modal"
                     data-collapse-toggle="company-info-container-modal"
                     aria-expanded="false"
                     onClick={() => setEmpresa(!empresa)}
                     value=""
-                    name="address-type-modal"
                     className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                   />
                   <label
@@ -113,7 +142,7 @@ export default function InfoFacturacionModal({
                     </label>
                     <input
                       type="text"
-                      id="company_name"
+                      name="company_name"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                       placeholder="Flowbite LLC"
                     />
@@ -128,7 +157,7 @@ export default function InfoFacturacionModal({
                     </label>
                     <input
                       type="text"
-                      id="vat_number"
+                      name="vat_number"
                       value={formattedRut}
                       onChange={handleChange}
                       className={`block w-full rounded-lg border p-2.5 text-sm focus:border-primary-500 focus:ring-primary-500
@@ -152,26 +181,9 @@ export default function InfoFacturacionModal({
                     {" "}
                     Dirección{" "}
                   </label>
-                  {/*<svg*/}
-                  {/*  data-tooltip-target="saved-address-modal-desc-2"*/}
-                  {/*  data-tooltip-trigger="hover"*/}
-                  {/*  className="h-4 w-4 text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white"*/}
-                  {/*  aria-hidden="true"*/}
-                  {/*  xmlns="http://www.w3.org/2000/svg"*/}
-                  {/*  width="24"*/}
-                  {/*  height="24"*/}
-                  {/*  fill="currentColor"*/}
-                  {/*  viewBox="0 0 24 24"*/}
-                  {/*>*/}
-                  {/*  <path*/}
-                  {/*    fillRule="evenodd"*/}
-                  {/*    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"*/}
-                  {/*    clipRule="evenodd"*/}
-                  {/*  />*/}
-                  {/*</svg>*/}
                 </div>
                 <input
-                  id="saved-address-modal"
+                  name="saved-address-modal"
                   placeholder={"Los poetas #652, Santiago"}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 ></input>
@@ -187,9 +199,10 @@ export default function InfoFacturacionModal({
                 </label>
                 <input
                   type="text"
-                  id="first_name_billing_modal"
+                  name="first_name_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su nombre"
+                  defaultValue={usuario?.first_name}
                   required
                 />
               </div>
@@ -204,16 +217,34 @@ export default function InfoFacturacionModal({
                 </label>
                 <input
                   type="text"
-                  id="last_name_billing_modal"
+                  name="last_name_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su apellido"
+                  defaultValue={usuario?.last_name}
+                  required
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="email_billing_modal"
+                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  {" "}
+                  Correo electrónico*{" "}
+                </label>
+                <input
+                  type="email"
+                  name="email_billing_modal"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  placeholder="Ingrese su correo electrónico"
+                  defaultValue={usuario?.email}
                   required
                 />
               </div>
 
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="phone-input_billing_modal"
+                  htmlFor="phone-input"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   {" "}
@@ -251,10 +282,10 @@ export default function InfoFacturacionModal({
                   <div className="relative w-full">
                     <input
                       type="text"
-                      id="phone-input"
+                      name="phone-input"
                       className="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
-                      pattern="[0-9]{8}"
-                      placeholder="12345678"
+                      placeholder="912345678"
+                      defaultValue={usuario?.phone_number}
                       required
                     />
                   </div>
@@ -264,7 +295,7 @@ export default function InfoFacturacionModal({
               <div>
                 <div className="mb-2 flex items-center gap-2">
                   <label
-                    htmlFor="select_country_input_billing_modal"
+                    htmlFor="select_region_input_billing_modal"
                     className="block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     {" "}
@@ -272,7 +303,7 @@ export default function InfoFacturacionModal({
                   </label>
                 </div>
                 <select
-                  id="select_country_input_billing_modal"
+                  name="select_region_input_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 >
                   {comunasRegiones.map((region, index) => (
@@ -290,7 +321,7 @@ export default function InfoFacturacionModal({
               <div>
                 <div className="mb-2 flex items-center gap-2">
                   <label
-                    htmlFor="select_city_input_billing_modal"
+                    htmlFor="select_comuna_input_billing_modal"
                     className="block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     {" "}
@@ -298,9 +329,8 @@ export default function InfoFacturacionModal({
                   </label>
                 </div>
                 <select
-                  id="select_city_input_billing_modal"
+                  name="select_comuna_input_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                  defaultValue={"San Francisco"}
                 >
                   {comunasRegiones[index].comunas.map((comuna) => (
                     <option key={comuna} value={comuna}>
@@ -309,21 +339,54 @@ export default function InfoFacturacionModal({
                   ))}
                 </select>
               </div>
-
               <div className="sm:col-span-2">
                 <label
-                  htmlFor="address_billing_modal"
+                  htmlFor="date"
+                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  {" "}
+                  Fecha del evento*{" "}
+                </label>
+                <Datepicker
+                  name="date"
+                  defaultDate={nextWeek}
+                  language={"es-MX"}
+                  showTodayButton={false}
+                  labelClearButton={"Limpiar"}
+                  minDate={nextWeek}
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="descripcion_billing_modal"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   {" "}
                   Desripción del evento*{" "}
                 </label>
                 <Textarea
-                  id="address_billing_modal"
+                  name="descripcion_billing_modal"
                   rows={4}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Describa su evento aquí..."
                 ></Textarea>
+              </div>
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="metodo_pago"
+                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  {" "}
+                  Método de pago*{" "}
+                </label>
+                <select
+                  name="metodo_pago"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                >
+                  <option value="efectivo">Efectivo</option>
+                  <option value="transferencia">Transferencia</option>
+                  <option value="tarjeta">Tarjeta</option>
+                </select>
               </div>
             </div>
           </Modal.Body>

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
 import { useState } from "react";
 import { deleteProductoCarrito, updateProductoCarrito } from "@/app/lib/db";
-import { useRouter } from "next/navigation";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
 import ModalBorrar from "./modal-borrar";
 
@@ -16,15 +15,24 @@ export default function CarritoProducto({
   const { carrito, setCarrito } = useCarritoContext();
   const [cantidad, setCantidad] = useState(producto.cantidad);
   const [openConfirmation, setOpenConfirmation] = useState(false);
-  const productoIndex = carrito.findIndex((item) => item.id === producto.id);
-  const precioTotal = carrito[productoIndex].producto_carrito.precio * cantidad;
+  const productoIndex = carrito.carrito_producto.findIndex(
+    (item) => item.id === producto.id,
+  );
+  const precioTotal =
+    carrito.carrito_producto[productoIndex].producto_carrito.precio * cantidad;
 
   function updateCarritoItem(id: string, newData: ProductoCarrito) {
-    setCarrito(carrito.map((item) => (item.id === id ? newData : item)));
+    const updatedCarritoProducto = carrito.carrito_producto.map((item) =>
+      item.id === id ? newData : item,
+    );
+    setCarrito({ ...carrito, carrito_producto: updatedCarritoProducto });
   }
 
   function deleteCarritoItem(id: string) {
-    setCarrito(carrito.filter((item) => item.id !== id));
+    const updatedCarritoProducto = carrito.carrito_producto.filter(
+      (item) => item.id !== id,
+    );
+    setCarrito({ ...carrito, carrito_producto: updatedCarritoProducto });
   }
   async function handleDelete() {
     deleteCarritoItem(producto.id);
@@ -108,7 +116,7 @@ export default function CarritoProducto({
 
             {/* Cantidad */}
             <div className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white">
-              {carrito[productoIndex].cantidad}
+              {carrito.carrito_producto[productoIndex].cantidad}
             </div>
             {/*Boton incrementar*/}
             <button

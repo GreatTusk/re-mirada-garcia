@@ -57,20 +57,20 @@ export type ProductoCarrito = {
   id: string;
   producto_carrito: Producto;
   cantidad: number;
+  carrito: string;
 };
 
 export type Usuario = {
   id: string;
-  nombre: string;
+  first_name: string;
+  last_name: string;
   email: string;
+  phone_number?: string;
 };
 
 export type Carrito = {
-  id: string;
   usuario: Usuario;
-  productos: ProductoCarrito[];
-  precioTotal: number;
-  ahorros: number;
+  carrito_producto: ProductoCarrito[];
 };
 
 export type Cartablog = {
@@ -111,16 +111,15 @@ export type Region = {
 };
 
 export type Pedido = {
-  id: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  direccion: string;
-  region: string;
-  comuna: string;
-  telefono: string;
-  descripcion: string;
-  fecha: string;
-  metodo_pago: string;
+  id?: string;
+  direccion?: string;
+  region?: string;
+  comuna?: string;
+  descripcion?: string;
+  fecha?: string;
+  metodo_pago?: string;
+  nombre_empresa?: string;
+  rut_empresa?: string;
+  // Incluye el cliente
   carrito: Carrito;
 };

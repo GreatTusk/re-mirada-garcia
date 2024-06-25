@@ -8,11 +8,11 @@ import {
   useContext,
   useState,
 } from "react";
-import { ProductoCarrito } from "@/app/lib/definitions";
+import { Carrito, ProductoCarrito } from "@/app/lib/definitions";
 
 type CarritoContextType = {
-  carrito: ProductoCarrito[];
-  setCarrito: Dispatch<SetStateAction<ProductoCarrito[]>>;
+  carrito: Carrito;
+  setCarrito: Dispatch<SetStateAction<Carrito>>;
 };
 
 export const ContextoCarrito = createContext<CarritoContextType | null>(null);
@@ -22,9 +22,9 @@ export default function ContextoCarritoProvider({
   carritoInicial,
 }: {
   children: ReactNode;
-  carritoInicial: ProductoCarrito[];
+  carritoInicial: Carrito;
 }) {
-  const [carrito, setCarrito] = useState<ProductoCarrito[]>(carritoInicial);
+  const [carrito, setCarrito] = useState<Carrito>(carritoInicial);
   return (
     <ContextoCarrito.Provider value={{ carrito, setCarrito }}>
       {children}

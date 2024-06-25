@@ -1,6 +1,7 @@
 "use server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
+import { postPedido } from "@/app/lib/db";
 
 export type ContactState = {
   errors?: {
@@ -15,6 +16,8 @@ export type ContactState = {
 
 export type PedidoState = {
   errors?: {
+    nombre_empresa?: string[];
+    rut_empresa?: string[];
     nombre?: string[];
     apellido?: string[];
     email?: string[];
@@ -30,6 +33,8 @@ export type PedidoState = {
 };
 
 const PedidoSchema = z.object({
+  nombre_empresa: z.nullable(z.string()),
+  rut_empresa: z.nullable(z.string()),
   nombre: z.string().max(50).min(3, {
     message: "El nombre no es válido.",
   }),
@@ -54,7 +59,7 @@ const PedidoSchema = z.object({
   descripcion: z.string().trim().max(1000).min(10, {
     message: "La descripción debe tener al menos 10 caracteres.",
   }),
-  fecha: z.string().length(10, {
+  fecha: z.string().max(50).min(3, {
     message: "La fecha no es válida.",
   }),
   metodo_pago: z.string().max(50).min(3, {
@@ -117,18 +122,21 @@ export async function crearContactoVenta(
 export async function crearPedido(
   estadoPrevio: PedidoState,
   formData: FormData,
+  user_id: string,
 ) {
   const camposValidados = PedidoSchema.safeParse({
-    nombre: formData.get("nombre"),
-    apellido: formData.get("apellido"),
-    email: formData.get("email"),
-    direccion: formData.get("direccion"),
-    region: formData.get("region"),
-    comuna: formData.get("comuna"),
-    telefono: formData.get("telefono"),
-    descripcion: formData.get("descripcion"),
-    fecha: formData.get("fecha"),
+    nombre_empresa: formData.get("company_name"),
+    rut_empresa: formData.get("vat_number"),
+    nombre: formData.get("first_name_billing_modal"),
+    apellido: formData.get("last_name_billing_modal"),
+    email: formData.get("email_billing_modal"),
+    direccion: formData.get("saved-address-modal"),
+    region: formData.get("select_region_input_billing_modal"),
+    comuna: formData.get("select_comuna_input_billing_modal"),
+    telefono: formData.get("phone-input"),
+    descripcion: formData.get("descripcion_billing_modal"),
     metodo_pago: formData.get("metodo_pago"),
+    fecha: formData.get("date"),
   });
 
   if (!camposValidados.success) {
@@ -138,23 +146,17 @@ export async function crearPedido(
     };
   }
 
-  const {
-    nombre,
-    apellido,
-    email,
-    direccion,
-    region,
-    comuna,
-    telefono,
-    descripcion,
-    fecha,
-    metodo_pago,
-  } = camposValidados.data;
+  const data = {
+    ...camposValidados.data,
+    user_id,
+  };
+
+  const id = await postPedido(data);
 
   // Enviar el pedido a la base de datos
 
   return {
     errors: {},
-    message: "Solicitud enviada exitosamente.",
+    message: "S." + id.id,
   };
 }

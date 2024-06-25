@@ -1,14 +1,10 @@
 import { ahorros, formatPriceWithSeparator, precioTotal } from "@/app/lib/util";
 import Link from "next/link";
-import { ProductoCarrito } from "@/app/lib/definitions";
+import { Carrito, ProductoCarrito } from "@/app/lib/definitions";
 
-export default function ResumenPedido({
-  carrito,
-}: {
-  carrito: ProductoCarrito[];
-}) {
-  const precio_total = precioTotal(carrito);
-  const ahorro = ahorros(carrito);
+export default function ResumenPedido({ carrito }: { carrito: Carrito }) {
+  const precio_total = precioTotal(carrito.carrito_producto);
+  const ahorro = ahorros(carrito.carrito_producto);
   return (
     <div className="mt-4 space-y-6">
       <h4 className="text-xl font-semibold text-gray-900 dark:text-white">

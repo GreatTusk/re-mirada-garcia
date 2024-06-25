@@ -1,8 +1,15 @@
-import { ProductoCarrito, Usuario } from "@/app/lib/definitions";
+import { Usuario } from "@/app/lib/definitions";
 
 export async function fetchCarritoProductos(userId: string) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,
+  );
+  return await response.json();
+}
+
+export async function fetchUsuario(userId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/usuario/${userId}/?format=json`,
   );
   return await response.json();
 }
@@ -21,6 +28,12 @@ export async function usuarioExists(userId: string | undefined) {
   return response.status === 200;
 }
 
+export async function fetchPedido(id: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pedido/${id}/?format=json`,
+  );
+  return await response.json();
+}
 export async function registrarUsuario(userData: Usuario) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/register_usuario/?format=json`,
@@ -30,6 +43,23 @@ export async function registrarUsuario(userData: Usuario) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
+    },
+  );
+  if (response.status !== 201) {
+    throw new Error(response.statusText);
+  }
+  return await response.json();
+}
+
+export async function postPedido(pedido: {}) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_pedido/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pedido),
     },
   );
   if (response.status !== 201) {
@@ -80,7 +110,7 @@ export async function updateProductoCarrito(
 }
 
 export async function deleteProductoCarrito(productoCarritoId: string) {
-  console.log(productoCarritoId)
+  console.log(productoCarritoId);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/`,
     {

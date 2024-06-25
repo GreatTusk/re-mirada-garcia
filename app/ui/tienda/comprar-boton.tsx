@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import { addToCart } from "@/app/lib/db";
 
 export default function ComprarBoton({
   producto_id,
