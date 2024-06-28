@@ -8,7 +8,6 @@ import {
 } from "@/app/lib/db";
 import { useAuth } from "@clerk/nextjs";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { OtrosProductosSkeleton } from "../skeletons";
 
@@ -23,7 +22,6 @@ export default function OtrosProductos() {
   );
 
   const { carrito, setCarrito } = useCarritoContext();
-  const router = useRouter();
   if (error) return <div>Failed to load</div>;
   if (!productos) return <OtrosProductosSkeleton />;
 
@@ -32,17 +30,18 @@ export default function OtrosProductos() {
       return;
     }
 
-    for (const item of carrito) {
+    for (const item of carrito.carrito_producto) {
       // Si el producto ya está en el carrito, aumentar la cantidad
       if (item.producto_carrito.id === producto.id) {
         // Actualizar el carrito del contexto
-        setCarrito(
-          carrito.map((item) =>
-            item.producto_carrito.id === producto.id
-              ? { ...item, cantidad: item.cantidad + 1 }
-              : item,
-          ),
+        const newProductos = carrito.carrito_producto.map((item) =>
+          item.producto_carrito.id === producto.id
+            ? { ...item, cantidad: item.cantidad + 1 }
+            : item,
         );
+
+        setCarrito({ ...carrito, carrito_producto: newProductos });
+
         // Actualizar el carrito en la base de datos
         await updateProductoCarrito(item.id, item.cantidad + 1);
         return;

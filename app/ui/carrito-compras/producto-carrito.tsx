@@ -1,3 +1,5 @@
+"use client";
+
 import { ProductoCarrito } from "@/app/lib/definitions";
 import Link from "next/link";
 import Image from "next/image";
