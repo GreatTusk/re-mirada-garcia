@@ -5,7 +5,7 @@ import {
   Modal,
   Textarea,
 } from "flowbite-react";
-import { Carrito, Region, Usuario } from "@/app/lib/definitions";
+import { Carrito, Pedido, Region, Usuario } from "@/app/lib/definitions";
 import React, { useState } from "react";
 import { formatRut, isValidRut } from "@/app/lib/util";
 import { countriesJSON } from "@/app/lib/data";
@@ -22,18 +22,17 @@ export default function InfoFacturacionModal({
   setOpenModal,
   comunasRegiones,
   loading,
-  carrito,
-  setCarrito,
+  pedido,
+  setPedido,
 }: {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   comunasRegiones: Region[];
   loading: boolean;
-  carrito: Carrito;
-  setCarrito: React.Dispatch<React.SetStateAction<Carrito>>;
+  pedido: Pedido;
+  setPedido: React.Dispatch<React.SetStateAction<Pedido>>;
 }) {
   const [index, setIndex] = useState(0);
-  const usuario = carrito.usuario;
   const [empresa, setEmpresa] = useState(false);
   const [rut, setRut] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -65,12 +64,22 @@ export default function InfoFacturacionModal({
     return;
   }
 
+  function closeModal() {
+    setOpenModal(false);
+    if (initialState.message?.charAt(0) !== "S") {
+      setInitialState({
+        message: null,
+        errors: {},
+      });
+    }
+  }
+
   const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   return (
     <Modal
       show={openModal}
       size="xl"
-      onClose={() => setOpenModal(false)}
+      onClose={closeModal}
       popup
       className="antialiased fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-auto w-full max-h-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
     >
@@ -89,21 +98,25 @@ export default function InfoFacturacionModal({
             const newState: ContactState = await crearPedido(
               initialState,
               formData,
-              usuario.id,
+              pedido.carrito,
             );
             setInitialState(newState);
             if (newState.message?.charAt(0) === "S") {
-              const user = await fetchPedido(newState.message.split(".")[1]);
-              console.log(user);
-              setCarrito({
-                ...carrito,
-                usuario: {
-                  id: usuario.id,
-                  first_name: user.first_name,
-                  last_name: user.last_name,
-                  email: user.email,
-                  phone_number: user.phone_number,
-                },
+              const user = await fetchPedido(pedido.carrito);
+              setPedido({
+                ...pedido,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                phone_number: user.phone_number,
+                comuna: user.comuna,
+                region: user.region,
+                direccion: user.direccion,
+                descripcion: user.descripcion,
+                fecha: user.fecha,
+                metodo_pago: user.metodo_pago,
+                nombre_empresa: user.nombre_empresa,
+                rut_empresa: user.rut_empresa,
               });
               setOpenModal(false);
             }
@@ -145,7 +158,23 @@ export default function InfoFacturacionModal({
                       name="company_name"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                       placeholder="Flowbite LLC"
+                      onClick={() =>
+                        setInitialState({
+                          ...initialState,
+                          errors: {
+                            ...initialState.errors,
+                            nombre_empresa: undefined,
+                          },
+                        })
+                      }
+                      required={true}
                     />
+                    {initialState.errors?.nombre_empresa && (
+                      <>
+                        <span className="font-medium">¡Uy!</span>{" "}
+                        {initialState.errors?.nombre_empresa}
+                      </>
+                    )}
                   </div>
                   <div>
                     <label
@@ -186,7 +215,22 @@ export default function InfoFacturacionModal({
                   name="saved-address-modal"
                   placeholder={"Los poetas #652, Santiago"}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  defaultValue={pedido.direccion}
+                  onClick={() =>
+                    setInitialState({
+                      ...initialState,
+                      errors: {
+                        ...initialState.errors,
+                        direccion: undefined,
+                      },
+                    })
+                  }
                 ></input>
+                {initialState.errors?.direccion && (
+                  <div className="mt-2 text-sm text-red-600">
+                    <span>¡Uy!</span> {initialState.errors?.direccion}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -202,9 +246,22 @@ export default function InfoFacturacionModal({
                   name="first_name_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su nombre"
-                  defaultValue={usuario?.first_name}
-                  required
+                  defaultValue={pedido.first_name}
+                  onClick={() =>
+                    setInitialState({
+                      ...initialState,
+                      errors: {
+                        ...initialState.errors,
+                        nombre: undefined,
+                      },
+                    })
+                  }
                 />
+                {initialState.errors?.nombre && (
+                  <div className="mt-2 text-sm text-red-600">
+                    <span>¡Uy!</span> {initialState.errors?.nombre}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -220,9 +277,22 @@ export default function InfoFacturacionModal({
                   name="last_name_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su apellido"
-                  defaultValue={usuario?.last_name}
-                  required
+                  defaultValue={pedido.last_name}
+                  onClick={() =>
+                    setInitialState({
+                      ...initialState,
+                      errors: {
+                        ...initialState.errors,
+                        apellido: undefined,
+                      },
+                    })
+                  }
                 />
+                {initialState.errors?.apellido && (
+                  <div className="mt-2 text-sm text-red-600">
+                    <span>¡Uy!</span> {initialState.errors?.apellido}
+                  </div>
+                )}
               </div>
               <div className="sm:col-span-2">
                 <label
@@ -237,9 +307,22 @@ export default function InfoFacturacionModal({
                   name="email_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su correo electrónico"
-                  defaultValue={usuario?.email}
-                  required
+                  defaultValue={pedido.email}
+                  onClick={() =>
+                    setInitialState({
+                      ...initialState,
+                      errors: {
+                        ...initialState.errors,
+                        email: undefined,
+                      },
+                    })
+                  }
                 />
+                {initialState.errors?.email && (
+                  <div className="mt-2 text-sm text-red-600">
+                    <span>¡Uy!</span> {initialState.errors?.email}
+                  </div>
+                )}
               </div>
 
               <div className="sm:col-span-2">
@@ -285,11 +368,24 @@ export default function InfoFacturacionModal({
                       name="phone-input"
                       className="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
                       placeholder="912345678"
-                      defaultValue={usuario?.phone_number}
-                      required
+                      defaultValue={pedido.phone_number}
+                      onClick={() =>
+                        setInitialState({
+                          ...initialState,
+                          errors: {
+                            ...initialState.errors,
+                            telefono: undefined,
+                          },
+                        })
+                      }
                     />
                   </div>
                 </div>
+                {initialState.errors?.telefono && (
+                  <div className="mt-2 text-sm text-red-600">
+                    <span>¡Uy!</span> {initialState.errors?.telefono}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -305,6 +401,7 @@ export default function InfoFacturacionModal({
                 <select
                   name="select_region_input_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  defaultValue={pedido.region}
                 >
                   {comunasRegiones.map((region, index) => (
                     <option
@@ -331,6 +428,7 @@ export default function InfoFacturacionModal({
                 <select
                   name="select_comuna_input_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  defaultValue={pedido.comuna}
                 >
                   {comunasRegiones[index].comunas.map((comuna) => (
                     <option key={comuna} value={comuna}>
@@ -369,7 +467,22 @@ export default function InfoFacturacionModal({
                   rows={4}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Describa su evento aquí..."
+                  defaultValue={pedido.descripcion}
+                  onClick={() =>
+                    setInitialState({
+                      ...initialState,
+                      errors: {
+                        ...initialState.errors,
+                        descripcion: undefined,
+                      },
+                    })
+                  }
                 ></Textarea>
+                {initialState.errors?.descripcion && (
+                  <div className="mt-2 text-sm text-red-600">
+                    <span>¡Uy!</span> {initialState.errors?.descripcion}
+                  </div>
+                )}
               </div>
               <div className="sm:col-span-2">
                 <label
@@ -382,6 +495,7 @@ export default function InfoFacturacionModal({
                 <select
                   name="metodo_pago"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                  defaultValue={pedido.metodo_pago}
                 >
                   <option value="efectivo">Efectivo</option>
                   <option value="transferencia">Transferencia</option>
@@ -399,7 +513,7 @@ export default function InfoFacturacionModal({
             </button>
             <button
               type="button"
-              onClick={() => setOpenModal(false)}
+              onClick={closeModal}
               data-modal-toggle="billingInformationModal"
               className="me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
             >

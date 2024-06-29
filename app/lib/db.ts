@@ -62,7 +62,7 @@ export async function postPedido(pedido: {}) {
       body: JSON.stringify(pedido),
     },
   );
-  if (response.status !== 201) {
+  if (response.status !== 201 && response.status !== 200) {
     throw new Error(response.statusText);
   }
   return await response.json();

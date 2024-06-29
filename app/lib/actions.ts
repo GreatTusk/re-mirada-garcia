@@ -151,12 +151,12 @@ export async function crearPedido(
     user_id,
   };
 
-  const id = await postPedido(data);
+  await postPedido(data);
 
   // Enviar el pedido a la base de datos
 
   return {
     errors: {},
-    message: "S." + id.id,
+    message: "S",
   };
 }

@@ -1,6 +1,13 @@
 import Link from "next/link";
+import { currentUser } from "@clerk/nextjs/server";
+import assert from "node:assert";
+import { fetchPedido } from "@/app/lib/db";
+import { Pedido } from "@/app/lib/definitions";
 
-export default function Page() {
+export default async function Page() {
+  const user = await currentUser();
+  assert(user, "No hay usuario");
+  const pedidoInicial: Pedido = await fetchPedido(user?.id);
   return (
     <section className="bg-white antialiased dark:bg-gray-900 py-16 md:pb-48">
       <div className="mx-auto max-w-2xl px-4 2xl:px-0">
@@ -24,7 +31,7 @@ export default function Page() {
               Fecha
             </dt>
             <dd className="font-medium text-gray-900 dark:text-white sm:text-end">
-              14 May 2024
+              {pedidoInicial.fecha}
             </dd>
           </dl>
           <dl className="sm:flex items-center justify-between gap-4">
@@ -32,7 +39,7 @@ export default function Page() {
               Método de pago
             </dt>
             <dd className="font-medium text-gray-900 dark:text-white sm:text-end">
-              JPMorgan monthly installments
+              {pedidoInicial.metodo_pago}
             </dd>
           </dl>
           <dl className="sm:flex items-center justify-between gap-4">
@@ -40,7 +47,7 @@ export default function Page() {
               Nombre
             </dt>
             <dd className="font-medium text-gray-900 dark:text-white sm:text-end">
-              Flowbite Studios LLC
+              {pedidoInicial.first_name} {pedidoInicial.last_name}
             </dd>
           </dl>
           <dl className="sm:flex items-center justify-between gap-4">
@@ -48,7 +55,7 @@ export default function Page() {
               Dirección
             </dt>
             <dd className="font-medium text-gray-900 dark:text-white sm:text-end">
-              34 Scott Street, San Francisco, California, USA
+              {pedidoInicial.direccion}
             </dd>
           </dl>
           <dl className="sm:flex items-center justify-between gap-4">
@@ -56,7 +63,7 @@ export default function Page() {
               Teléfono
             </dt>
             <dd className="font-medium text-gray-900 dark:text-white sm:text-end">
-              +(123) 456 7890
+              {pedidoInicial.phone_number}
             </dd>
           </dl>
         </div>
@@ -69,10 +76,10 @@ export default function Page() {
             Volver al inicio
           </Link>
           <Link
-            href="/carrito-compras"
+            href="/tienda"
             className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
-            Return to shopping
+            Buscar más productos
           </Link>
         </div>
       </div>
