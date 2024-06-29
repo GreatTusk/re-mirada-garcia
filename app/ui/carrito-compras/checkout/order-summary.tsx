@@ -43,7 +43,12 @@ export default function OrderSummary() {
                 Cliente
               </dt>
               <dd className="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">
-                {`${pedido.first_name} ${pedido.last_name == null ? "" : pedido.last_name} - ${pedido.phone_number == "" ? "número de teléfono no encontrado" : pedido.phone_number} - ${pedido.email}`}
+                {!pedido.first_name &&
+                !pedido.last_name &&
+                !pedido.phone_number &&
+                !pedido.email
+                  ? "Por favor ingrese sus datos de facturación."
+                  : `${pedido.first_name || pedido.last_name ? `${pedido.first_name} ${pedido.last_name}` : "nombre no encontrado"} - ${pedido.phone_number ? pedido.phone_number : "número de teléfono no encontrado"} - ${pedido.email ? pedido.email : "correo electrónico no encontrado"}`}
               </dd>
             </dl>
             <button
@@ -53,7 +58,7 @@ export default function OrderSummary() {
                 setOpenModal(true);
               }}
             >
-              Editar
+              Ingresar datos de facturación
             </button>
           </div>
           <InfoFacturacionModal
@@ -63,11 +68,13 @@ export default function OrderSummary() {
             loading={loading}
             pedido={pedido}
             setPedido={setPedido}
+            userId={carrito.usuario.id}
+            usuario={carrito.usuario}
           />
           <div className="mt-6 sm:mt-8">
             {/*Items del carrito*/}
             <ProductosPedido carrito={carrito} />
-            <ResumenPedido carrito={carrito} />
+            <ResumenPedido carritoUser={carrito} pedido={pedido} />
           </div>
         </div>
       </form>

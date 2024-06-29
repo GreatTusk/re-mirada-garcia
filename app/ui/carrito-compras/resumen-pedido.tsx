@@ -45,12 +45,21 @@ export default function ResumenPedido() {
         </dl>
       </div>
 
-      <Link
-        href="carrito-compras/checkout"
-        className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-      >
-        Continuar a la compra
-      </Link>
+      {precio_total > 0 ? (
+        <Link
+          href="carrito-compras/checkout"
+          className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        >
+          Continuar a la compra
+        </Link>
+      ) : (
+        <button
+          disabled
+          className="mt-4 flex w-full items-center justify-center rounded-lg bg-gray-200 px-5 py-2.5 text-sm font-medium text-gray-900 dark:bg-gray-700 dark:text-gray-400 dark:focus:ring-gray-700 sm:mt-0"
+        >
+          Continuar a la compra
+        </button>
+      )}
 
       <div className="flex items-center justify-center gap-2">
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -62,7 +71,7 @@ export default function ResumenPedido() {
           title=""
           className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
         >
-          Continuar comprando
+          Explorar más planes
           <svg
             className="h-5 w-5"
             aria-hidden="true"

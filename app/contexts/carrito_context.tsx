@@ -8,7 +8,7 @@ import {
   useContext,
   useState,
 } from "react";
-import { Carrito, ProductoCarrito } from "@/app/lib/definitions";
+import { Carrito } from "@/app/lib/definitions";
 
 type CarritoContextType = {
   carrito: Carrito;

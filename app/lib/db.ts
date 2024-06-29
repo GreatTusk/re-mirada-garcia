@@ -14,6 +14,13 @@ export async function fetchUsuario(userId: string) {
   return await response.json();
 }
 
+export async function fetchProductoConfirmado(userId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pedidohistorico/${userId}/?format=json`,
+  );
+  return await response.json();
+}
+
 export async function fetchCarritoProductosClient(userId: string) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,
@@ -110,7 +117,6 @@ export async function updateProductoCarrito(
 }
 
 export async function deleteProductoCarrito(productoCarritoId: string) {
-  console.log(productoCarritoId);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/`,
     {
@@ -119,6 +125,20 @@ export async function deleteProductoCarrito(productoCarritoId: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ producto: productoCarritoId }),
+    },
+  );
+  return await response.json();
+}
+
+export async function confirmPedido(pedidoId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_pedido/`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id_pedido: pedidoId }),
     },
   );
   return await response.json();

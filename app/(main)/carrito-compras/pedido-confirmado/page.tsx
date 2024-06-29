@@ -1,13 +1,34 @@
+"use client";
 import Link from "next/link";
-import { currentUser } from "@clerk/nextjs/server";
-import assert from "node:assert";
-import { fetchPedido } from "@/app/lib/db";
-import { Pedido } from "@/app/lib/definitions";
+import { fetchProductoConfirmado } from "@/app/lib/db";
+import { PedidoConfirmado } from "@/app/lib/definitions";
+import { useCarritoContext } from "@/app/contexts/carrito_context";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
-  const user = await currentUser();
-  assert(user, "No hay usuario");
-  const pedidoInicial: Pedido = await fetchPedido(user?.id);
+export default function Page() {
+  // const user = await currentUser();
+  // assert(user, "No hay usuario");
+  // const pedidoInicial: Pedido = await fetchPedido(user?.id);
+  const [loading, setLoading] = useState(true);
+  const [pedidoInicial, setPedido] = useState<PedidoConfirmado | null>(null);
+  const { carrito, setCarrito } = useCarritoContext();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!carrito.id_pedido_confirmado) {
+        return;
+      }
+      const res = await fetchProductoConfirmado(carrito.id_pedido_confirmado);
+      setPedido(res);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading || !pedidoInicial) {
+    return;
+  }
   return (
     <section className="bg-white antialiased dark:bg-gray-900 py-16 md:pb-48">
       <div className="mx-auto max-w-2xl px-4 2xl:px-0">
@@ -20,7 +41,7 @@ export default async function Page() {
             href="#"
             className="font-medium text-gray-900 dark:text-white hover:underline"
           >
-            #7564804
+            #{carrito.id_pedido_confirmado}
           </a>{" "}
           ha sido recibido y será contactado dentro de 24 horas por nuestro
           equipo.

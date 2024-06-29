@@ -192,7 +192,6 @@ export default function CarritoProducto({
               handleDelete={handleDelete}
             />
             <button
-              // onClick={handleDelete}
               onClick={() => setOpenConfirmation(true)}
               type="button"
               className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"

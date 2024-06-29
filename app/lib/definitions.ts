@@ -71,6 +71,7 @@ export type Usuario = {
 export type Carrito = {
   usuario: Usuario;
   carrito_producto: ProductoCarrito[];
+  id_pedido_confirmado?: string;
 };
 
 export type Cartablog = {
@@ -123,5 +124,22 @@ export type Pedido = {
   first_name: string;
   last_name: string;
   email: string;
-  phone_number?: string;
+  phone_number: string;
+};
+
+export type PedidoConfirmado = {
+  id_pedido: string;
+  usuario: string;
+  direccion: string;
+  region: string;
+  comuna: string;
+  descripcion: string;
+  fecha: string;
+  metodo_pago: string;
+  nombre_empresa?: string;
+  rut_empresa?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
 };

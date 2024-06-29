@@ -1,10 +1,35 @@
 import { ahorros, formatPriceWithSeparator, precioTotal } from "@/app/lib/util";
 import Link from "next/link";
-import { Carrito, ProductoCarrito } from "@/app/lib/definitions";
+import { Carrito, Pedido } from "@/app/lib/definitions";
+import { confirmPedido } from "@/app/lib/db";
+import { useState } from "react";
+import { useCarritoContext } from "@/app/contexts/carrito_context";
 
-export default function ResumenPedido({ carrito }: { carrito: Carrito }) {
-  const precio_total = precioTotal(carrito.carrito_producto);
-  const ahorro = ahorros(carrito.carrito_producto);
+export default function ResumenPedido({
+  carritoUser,
+  pedido,
+}: {
+  carritoUser: Carrito;
+  pedido: Pedido;
+}) {
+  const precio_total = precioTotal(carritoUser.carrito_producto);
+  const { carrito, setCarrito } = useCarritoContext();
+  const ahorro = ahorros(carritoUser.carrito_producto);
+  const pedidoIsValid: boolean = Boolean(
+    pedido.carrito &&
+      pedido.direccion &&
+      pedido.region &&
+      pedido.comuna &&
+      pedido.descripcion &&
+      pedido.fecha &&
+      pedido.metodo_pago &&
+      pedido.first_name &&
+      pedido.last_name &&
+      pedido.email &&
+      pedido.phone_number,
+  );
+
+  const [aceptado, setAceptado] = useState(false);
   return (
     <div className="mt-4 space-y-6">
       <h4 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -44,7 +69,8 @@ export default function ResumenPedido({ carrito }: { carrito: Carrito }) {
         <input
           id="terms-checkbox-2"
           type="checkbox"
-          value=""
+          defaultChecked={aceptado}
+          onClick={() => setAceptado(!aceptado)}
           className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
         />
         <label
@@ -71,15 +97,29 @@ export default function ResumenPedido({ carrito }: { carrito: Carrito }) {
         >
           Volver al carrito
         </Link>
-
-        <Link
-          type="submit"
-          href={"/carrito-compras/pedido-confirmado"}
-          onClick={() => {}}
-          className="mt-4 flex w-full items-center justify-center rounded-lg bg-primary-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 sm:mt-0"
-        >
-          Confirmar pedido
-        </Link>
+        {aceptado && pedidoIsValid ? (
+          <Link
+            type="submit"
+            href={"/carrito-compras/pedido-confirmado"}
+            onClick={async () => {
+              const pedidoConfirmadoId = await confirmPedido(pedido.carrito);
+              setCarrito({
+                ...carrito,
+                id_pedido_confirmado: pedidoConfirmadoId.id,
+              });
+            }}
+            className="mt-4 flex w-full items-center justify-center rounded-lg bg-primary-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 sm:mt-0"
+          >
+            Confirmar pedido
+          </Link>
+        ) : (
+          <button
+            disabled
+            className="mt-4 flex w-full items-center justify-center rounded-lg bg-gray-200 px-5 py-2.5 text-sm font-medium text-gray-900 dark:bg-gray-700 dark:text-gray-400 dark:focus:ring-gray-700 sm:mt-0"
+          >
+            Confirmar pedido
+          </button>
+        )}
       </div>
     </div>
   );

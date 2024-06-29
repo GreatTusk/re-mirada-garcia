@@ -55,7 +55,6 @@ export default function OtrosProductos() {
       cantidad: 1,
       producto_carrito: producto.id,
     };
-    console.log(productoToAdd);
 
     // Añadir el producto (dejar que se genere el id)
     await addToCart(productoToAdd);

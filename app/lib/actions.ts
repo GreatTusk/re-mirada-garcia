@@ -150,7 +150,6 @@ export async function crearPedido(
     ...camposValidados.data,
     user_id,
   };
-
   await postPedido(data);
 
   // Enviar el pedido a la base de datos

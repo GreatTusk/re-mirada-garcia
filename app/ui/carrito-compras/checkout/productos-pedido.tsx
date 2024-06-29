@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatPriceWithSeparator } from "@/app/lib/util";
-import { Carrito, ProductoCarrito } from "@/app/lib/definitions";
+import { Carrito } from "@/app/lib/definitions";
 
 export default function ProductosPedido({ carrito }: { carrito: Carrito }) {
   return (

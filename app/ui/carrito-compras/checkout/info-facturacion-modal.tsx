@@ -5,16 +5,11 @@ import {
   Modal,
   Textarea,
 } from "flowbite-react";
-import { Carrito, Pedido, Region, Usuario } from "@/app/lib/definitions";
+import { Pedido, Region, Usuario } from "@/app/lib/definitions";
 import React, { useState } from "react";
 import { formatRut, isValidRut } from "@/app/lib/util";
 import { countriesJSON } from "@/app/lib/data";
-import {
-  ContactState,
-  crearContactoVenta,
-  crearPedido,
-  PedidoState,
-} from "@/app/lib/actions";
+import { ContactState, crearPedido, PedidoState } from "@/app/lib/actions";
 import { fetchPedido } from "@/app/lib/db";
 
 export default function InfoFacturacionModal({
@@ -24,6 +19,8 @@ export default function InfoFacturacionModal({
   loading,
   pedido,
   setPedido,
+  userId,
+  usuario,
 }: {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +28,8 @@ export default function InfoFacturacionModal({
   loading: boolean;
   pedido: Pedido;
   setPedido: React.Dispatch<React.SetStateAction<Pedido>>;
+  userId: string;
+  usuario: Usuario;
 }) {
   const [index, setIndex] = useState(0);
   const [empresa, setEmpresa] = useState(false);
@@ -98,13 +97,13 @@ export default function InfoFacturacionModal({
             const newState: ContactState = await crearPedido(
               initialState,
               formData,
-              pedido.carrito,
+              userId,
             );
             setInitialState(newState);
             if (newState.message?.charAt(0) === "S") {
-              const user = await fetchPedido(pedido.carrito);
+              const user = await fetchPedido(userId);
               setPedido({
-                ...pedido,
+                carrito: userId,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 email: user.email,
@@ -246,7 +245,9 @@ export default function InfoFacturacionModal({
                   name="first_name_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su nombre"
-                  defaultValue={pedido.first_name}
+                  defaultValue={
+                    pedido.first_name ? pedido.first_name : usuario.first_name
+                  }
                   onClick={() =>
                     setInitialState({
                       ...initialState,
@@ -277,7 +278,9 @@ export default function InfoFacturacionModal({
                   name="last_name_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su apellido"
-                  defaultValue={pedido.last_name}
+                  defaultValue={
+                    pedido.last_name ? pedido.last_name : usuario.last_name
+                  }
                   onClick={() =>
                     setInitialState({
                       ...initialState,
@@ -307,7 +310,7 @@ export default function InfoFacturacionModal({
                   name="email_billing_modal"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                   placeholder="Ingrese su correo electrónico"
-                  defaultValue={pedido.email}
+                  defaultValue={pedido.email ? pedido.email : usuario.email}
                   onClick={() =>
                     setInitialState({
                       ...initialState,
@@ -368,7 +371,11 @@ export default function InfoFacturacionModal({
                       name="phone-input"
                       className="z-20 block w-full rounded-e-lg border border-s-0 border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:border-s-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500"
                       placeholder="912345678"
-                      defaultValue={pedido.phone_number}
+                      defaultValue={
+                        pedido.phone_number
+                          ? pedido.phone_number
+                          : usuario.phone_number
+                      }
                       onClick={() =>
                         setInitialState({
                           ...initialState,
