@@ -10,7 +10,7 @@ export default function ComprarBoton({
   user_id: string | undefined;
 }) {
   return (
-    <Link href="/tienda/carrito-compras">
+    <Link href="/carrito-compras">
       <Button
         outline
         gradientDuoTone="purpleToBlue"
