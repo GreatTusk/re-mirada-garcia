@@ -1,12 +1,13 @@
 import { PlanFoto } from "@/app/lib/definitions";
-import { Button, Card } from "flowbite-react";
+import { Card } from "flowbite-react";
 import { ContactoVentas } from "@/app/ui/tienda/contacto";
-import Link from "next/link";
+import { currentUser } from "@clerk/nextjs/server";
+import ComprarBoton from "./comprar-boton";
+import { formatPriceWithSeparator } from "@/app/lib/util_server";
 
-export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
-  function formatPriceWithSeparator(price: number) {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
+export async function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
+  const user = await currentUser();
+  const user_id = user?.id;
 
   return (
     <Card className="max-w-sm">
@@ -67,11 +68,7 @@ export function PlanPrecio({ planFoto }: { planFoto: PlanFoto }) {
         ))}
       </ul>
       <ContactoVentas />
-      <Link href="/tienda/carrito-compras">
-        <Button outline gradientDuoTone="purpleToBlue" className="w-full">
-          Comprar
-        </Button>
-      </Link>
+      <ComprarBoton user_id={user_id} producto_id={planFoto.id} />
     </Card>
   );
 }

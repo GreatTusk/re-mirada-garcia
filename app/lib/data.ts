@@ -1,13 +1,10 @@
-import {
-  Cartablog,
-  Seccion,
-} from "@/app/lib/definitions";
+import { Cartablog, Seccion } from "@/app/lib/definitions";
 
 export const links = [
   { path: "/", label: "Inicio" },
   { path: "/portafolio", label: "Portafolio" },
   { path: "/tienda", label: "Tienda" },
-  { path: "/tienda/carrito-compras", label: "Carrito" },
+  { path: "/carrito-compras", label: "Carrito" },
   { path: "/blog", label: "Blog" },
   { path: "/nuestra_vision", label: "Nuestra visión" },
   { path: "/legal", label: "Legal" },
@@ -165,5 +162,80 @@ export const primerpost: Cartablog = {
   id: "1",
   tag: "Retratos",
 };
+
+export const countriesJSON = [
+  {
+    name: "Argentina",
+    dial_code: "+54",
+    emoji: "🇦🇷",
+    code: "AR",
+  },
+  {
+    name: "Bolivia",
+    dial_code: "+591",
+    emoji: "🇧🇴",
+    code: "BO",
+  },
+  {
+    name: "Brazil",
+    dial_code: "+55",
+    emoji: "🇧🇷",
+    code: "BR",
+  },
+  {
+    name: "Chile",
+    dial_code: "+56",
+    emoji: "🇨🇱",
+    code: "CL",
+  },
+  {
+    name: "Colombia",
+    dial_code: "+57",
+    emoji: "🇨🇴",
+    code: "CO",
+  },
+  {
+    name: "Ecuador",
+    dial_code: "+593",
+    emoji: "🇪🇨",
+    code: "EC",
+  },
+  {
+    name: "Guyana",
+    dial_code: "+595",
+    emoji: "🇬🇾",
+    code: "GY",
+  },
+  {
+    name: "Paraguay",
+    dial_code: "+595",
+    emoji: "🇵🇾",
+    code: "PY",
+  },
+  {
+    name: "Peru",
+    dial_code: "+51",
+    emoji: "🇵🇪",
+    code: "PE",
+  },
+  {
+    name: "Suriname",
+    dial_code: "+597",
+    emoji: "🇸🇷",
+    code: "SR",
+  },
+  {
+    name: "Uruguay",
+    dial_code: "+598",
+    emoji: "🇺🇾",
+    code: "UY",
+  },
+  {
+    name: "Venezuela",
+    dial_code: "+58",
+    emoji: "🇻🇪",
+    code: "VE",
+  },
+];
 
 export const posts: Cartablog[] = [primerpost, segundopost];

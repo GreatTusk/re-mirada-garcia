@@ -46,29 +46,32 @@ export type ContactoVenta = {
 };
 
 export type Producto = {
-  id: string;
+  id: number;
   nombre: string;
   precio: number;
-  imagenUrl: string;
-  precioOferta?: number;
+  imagen_url: string;
+  precio_oferta?: number;
 };
+
 export type ProductoCarrito = {
-  producto: Producto;
+  id: string;
+  producto_carrito: Producto;
   cantidad: number;
+  carrito: string;
 };
 
 export type Usuario = {
   id: string;
-  nombre: string;
+  first_name: string;
+  last_name: string;
   email: string;
+  phone_number?: string;
 };
 
 export type Carrito = {
-  id: string;
   usuario: Usuario;
-  productos: ProductoCarrito[];
-  precioTotal: number;
-  ahorros: number;
+  carrito_producto: ProductoCarrito[];
+  id_pedido_confirmado?: string;
 };
 
 export type Cartablog = {
@@ -101,4 +104,42 @@ export type BlogImagen = {
   height: number;
   className: string;
   caption: string;
+};
+
+export type Region = {
+  region: string;
+  comunas: string[];
+};
+
+export type Pedido = {
+  carrito: string;
+  direccion: string;
+  region: string;
+  comuna: string;
+  descripcion: string;
+  fecha: string;
+  metodo_pago: string;
+  nombre_empresa?: string;
+  rut_empresa?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+};
+
+export type PedidoConfirmado = {
+  id_pedido: string;
+  usuario: string;
+  direccion: string;
+  region: string;
+  comuna: string;
+  descripcion: string;
+  fecha: string;
+  metodo_pago: string;
+  nombre_empresa?: string;
+  rut_empresa?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
 };

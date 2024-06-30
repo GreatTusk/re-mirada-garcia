@@ -20,7 +20,7 @@ async function fetchItemTestimonio() {
 export default async function Page() {
   const itemPortafolios: ItemPortafolio[] = await fetchItemPortafolio();
   const itemTestimonios: ItemTestimonio[] = await fetchItemTestimonio();
-  
+
   return (
     <main>
       <div className="mx-auto max-w-screen-xl px-4 py-12 lg:px-6">

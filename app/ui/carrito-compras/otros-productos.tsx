@@ -1,43 +1,108 @@
 import Image from "next/image";
 import { Producto } from "@/app/lib/definitions";
+import useSWR from "swr";
+import {
+  addToCart,
+  fetchCarritoProductosClient,
+  updateProductoCarrito,
+} from "@/app/lib/db";
+import { useAuth } from "@clerk/nextjs";
+import { useCarritoContext } from "@/app/contexts/carrito_context";
+import Link from "next/link";
+import { OtrosProductosSkeleton } from "../skeletons";
 
-export default function OtrosProductos({
-  productos,
-}: {
-  productos: Producto[];
-}) {
+// @ts-ignore
+const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
+
+export default function OtrosProductos() {
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { data: productos, error } = useSWR<Producto[]>(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/producto/?format=json`,
+    fetcher,
+  );
+
+  const { carrito, setCarrito } = useCarritoContext();
+  if (error) return <div>Failed to load</div>;
+  if (!productos) return <OtrosProductosSkeleton />;
+
+  async function handleAddToCart(producto: Producto) {
+    if (!userId) {
+      return;
+    }
+
+    for (const item of carrito.carrito_producto) {
+      // Si el producto ya está en el carrito, aumentar la cantidad
+      if (item.producto_carrito.id === producto.id) {
+        // Actualizar el carrito del contexto
+        const newProductos = carrito.carrito_producto.map((item) =>
+          item.producto_carrito.id === producto.id
+            ? { ...item, cantidad: item.cantidad + 1 }
+            : item,
+        );
+
+        setCarrito({ ...carrito, carrito_producto: newProductos });
+
+        // Actualizar el carrito en la base de datos
+        await updateProductoCarrito(item.id, item.cantidad + 1);
+        return;
+      }
+    }
+    // Pasos: crear el usuario(dejar que se genere el id)
+    // Obtener ese id y
+
+    const productoToAdd = {
+      id_usuario: userId,
+      cantidad: 1,
+      producto_carrito: producto.id,
+    };
+
+    // Añadir el producto (dejar que se genere el id)
+    await addToCart(productoToAdd);
+    // Obtenemos el carrito entero de nuevo
+    const nuevoCarrito = await fetchCarritoProductosClient(userId);
+    // Actualizamos la interfaz con el nuevo carrito
+    setCarrito(nuevoCarrito);
+  }
+
+  const descripciones = [
+    "Captura los momentos más importantes y especiales de tu evento con profesionalismo y rapidez.",
+    "Disfruta de una cobertura más extensa y artística de tu evento, asegurando recuerdos inolvidables.",
+    "Experimenta la cobertura más completa y detallada de tu evento, desde los preparativos hasta la celebración.",
+  ];
+
+  // Rest of the component...
   return (
-    <div className="hidden xl:mt-8 xl:block">
+    <div className="mt-8">
       <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-        Productos relacionados
+        Nuestros productos
       </h3>
       {/*Producto*/}
-      <div className="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
+      <div className="mt-6 grid grid-rows-3 grid-cols-1 md:grid-cols-3 md:grid-rows-1 gap-4 sm:mt-8">
         {productos.map((producto) => (
           <div
             key={producto.id}
             className="space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"
           >
-            <a href="#" className="overflow-hidden rounded">
+            <Link href="/tienda" className="overflow-hidden rounded">
               <Image
                 className="h-20 w-20 rounded-2xl"
-                src={producto.imagenUrl}
+                src={producto.imagen_url}
                 alt={producto.nombre}
                 width={1922}
                 height={1082}
               />
-            </a>
+            </Link>
             <div>
               {/*Nombre del producto*/}
-              <a
-                href="#"
+              <Link
+                href="/tienda"
                 className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white"
               >
                 {producto.nombre}
-              </a>
+              </Link>
               {/*Descripción del producto*/}
               <p className="mt-2 text-base font-normal text-gray-500 dark:text-gray-400">
-                ¡Beneficios adicionales!
+                {descripciones[producto.id - 1]}
               </p>
             </div>
             <div>
@@ -46,7 +111,7 @@ export default function OtrosProductos({
                 <span className="line-through"> ${producto.precio} </span>
               </p>
               <p className="text-lg font-bold leading-tight text-red-600 dark:text-red-500">
-                ${producto.precio - 50}
+                ${producto.precio_oferta}
               </p>
             </div>
             <div className="mt-6 flex items-center gap-2.5">
@@ -80,6 +145,7 @@ export default function OtrosProductos({
                 <div className="tooltip-arrow" data-popper-arrow=""></div>
               </div>
               <button
+                onClick={async () => await handleAddToCart(producto)}
                 type="button"
                 className="inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium  text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >

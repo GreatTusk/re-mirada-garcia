@@ -1,63 +1,152 @@
-import { sql } from "@vercel/postgres";
-import { PlanFoto } from "@/app/lib/definitions";
+import { Usuario } from "@/app/lib/definitions";
 
-export async function crearUsuario(nombre: string, email: string) {
-  try {
-    const result = await sql`
-      INSERT INTO Usuario (nombre, email)
-      VALUES (${nombre}, ${email})
-      RETURNING *;
-    `;
-
-    return result;
-  } catch (error) {}
+export async function fetchCarritoProductos(userId: string) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,
+  );
+  return await response.json();
 }
 
-export async function fetchPlanesFoto() {
-  try {
-    const res = await sql`
-    SELECT * FROM plan_foto ORDER BY PRECIO
-       `;
+export async function fetchUsuario(userId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/usuario/${userId}/?format=json`,
+  );
+  return await response.json();
+}
 
-    return res.rows.map(
-      (row): PlanFoto => ({
-        id: row.id,
-        titulo: row.titulo,
-        precio: row.precio,
-        incluye: { servicios: row.incluye.split(", ") },
-        noIncluye: {
-          servicios: row.no_incluye ? row.no_incluye.split(", ") : [],
-        },
-      }),
-    );
-  } catch (error) {
-    return [];
+export async function fetchProductoConfirmado(userId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pedidohistorico/${userId}/?format=json`,
+  );
+  return await response.json();
+}
+
+export async function fetchCarritoProductosClient(userId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,
+  );
+  return await response.json();
+}
+
+export async function usuarioExists(userId: string | undefined) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/usuario/${userId}/?format=json`,
+  );
+  return response.status === 200;
+}
+
+export async function fetchPedido(id: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pedido/${id}/?format=json`,
+  );
+  return await response.json();
+}
+export async function registrarUsuario(userData: Usuario) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/register_usuario/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    },
+  );
+  if (response.status !== 201) {
+    throw new Error(response.statusText);
   }
+  return await response.json();
 }
 
-export async function fetchPlanFotoById(id: string) {
-  try {
-    const res = await sql`
-    SELECT  pf.titulo, pf.precio, 
-              json_agg(DISTINCT s_incluye.servicio) AS incluye_servicios,
-              json_agg(DISTINCT s_no_incluye.servicio) AS no_incluye_servicios
-       FROM plan_foto pf
-       LEFT JOIN plan_servicios ps_incluye ON pf.id = ps_incluye.plan_id
-       LEFT JOIN plan_servicios ps_no_incluye ON pf.id = ps_no_incluye.plan_id
-       LEFT JOIN servicios s_incluye ON ps_incluye.servicio_id = s_incluye.id
-       LEFT JOIN servicios s_no_incluye ON ps_no_incluye.servicio_id = s_no_incluye.id
-       WHERE pf.id = ${id}
-       GROUP BY pf.id
-       `;
+export async function postPedido(pedido: {}) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_pedido/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pedido),
+    },
+  );
+  if (response.status !== 201 && response.status !== 200) {
+    throw new Error(response.statusText);
+  }
+  return await response.json();
+}
 
-    return res.rows.map(
-      (row): PlanFoto => ({
-        id: id,
-        titulo: row.titulo,
-        precio: row.precio,
-        incluye: { servicios: row.incluye_servicios || [] },
-        noIncluye: { servicios: row.no_incluye_servicios || [] },
+export async function addToCart(producto: {
+  id_usuario: string;
+  producto_carrito: number;
+  cantidad: number;
+}) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(producto),
+    },
+  );
+  if (response.status !== 201) {
+    return;
+  }
+  return await response.json();
+}
+
+export async function updateProductoCarrito(
+  productoId: string,
+  cantidad: number,
+) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        producto: productoId,
+        cantidad: cantidad,
       }),
-    )[0];
-  } catch (error) {}
+    },
+  );
+  return await response.json();
+}
+
+export async function deleteProductoCarrito(productoCarritoId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ producto: productoCarritoId }),
+    },
+  );
+  return await response.json();
+}
+
+export async function confirmPedido(pedidoId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_pedido/`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id_pedido: pedidoId }),
+    },
+  );
+  return await response.json();
+}
+
+export async function fetchProductos() {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/producto/?format=json`,
+  );
+  return await response.json();
 }
