@@ -21,6 +21,20 @@ export async function fetchProductoConfirmado(userId: string) {
   return await response.json();
 }
 
+export async function fetchPedidosConfirmados(userId: string) {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/carrito_pedido/?format=json`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userId),
+    },
+  );
+  return await response.json();
+}
+
 export async function fetchCarritoProductosClient(userId: string) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_productos/?carrito=${userId}&format=json`,

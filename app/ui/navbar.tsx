@@ -36,7 +36,7 @@ export default function NavBar() {
             Mirada García
           </span>
         </Navbar.Brand>
-        <div className="flex md:order-2 gap-4">
+        <div className="flex lg2:order-2 gap-4">
           <SignedIn>
             {/* Mount the UserButton component */}
             <ClerkLoaded>

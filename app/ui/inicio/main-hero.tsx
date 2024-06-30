@@ -2,10 +2,7 @@ import Link from "next/link";
 
 export default function MainHero() {
   return (
-    <div
-      className="py-16 px-4 w-full h-full text-center lg:py-16 bg-center bg-no-repeat bg-[url('/img/fotos-concierto/6.jpg')] bg-gray-700 bg-blend-multiply
-    "
-    >
+    <div className="py-16 px-4 w-full h-full text-center lg:py-16 bg-center bg-no-repeat bg-cover bg-[url('/img/fotos-concierto/6.jpg')] bg-gray-700 bg-blend-multiply">
       {/*bg-center bg-no-repeat bg-[url('/img/fotos-concierto/6.jpg')] bg-gray-700 bg-blend-multiply*/}
       <Link
         href="/blog"

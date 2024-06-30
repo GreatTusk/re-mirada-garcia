@@ -7,6 +7,7 @@ import CarritoProducto from "@/app/ui/carrito-compras/producto-carrito";
 import OtrosProductos from "@/app/ui/carrito-compras/otros-productos";
 import ResumenPedido from "@/app/ui/carrito-compras/resumen-pedido";
 import CodDescuento from "@/app/ui/carrito-compras/cod-descuento";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 /*
  * Es imposible acceder a esta página si no se está autenticado,
@@ -23,12 +24,20 @@ function CarritoCompras() {
     const { carrito, setCarrito } = useCarritoContext();
     return (
       <div className="space-y-6">
-        {carrito.carrito_producto.map((producto: ProductoCarrito) => (
-          <Suspense key={producto.id} fallback={<ProductoCarritoSkeleton />}>
-            {/*This is a client component because it requires interactivity*/}
-            <CarritoProducto producto={producto} />
-          </Suspense>
-        ))}
+        {carrito.carrito_producto.length > 0 ? (
+          carrito.carrito_producto.map((producto: ProductoCarrito) => (
+            <Suspense key={producto.id} fallback={<ProductoCarritoSkeleton />}>
+              <CarritoProducto producto={producto} />
+            </Suspense>
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <ShoppingCartIcon className="h-12 w-12 text-gray-400" />
+            <p className="text-gray-600 dark:text-white">
+              No hay productos en el carrito
+            </p>
+          </div>
+        )}
       </div>
     );
   }

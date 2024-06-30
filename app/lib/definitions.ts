@@ -142,4 +142,10 @@ export type PedidoConfirmado = {
   last_name: string;
   email: string;
   phone_number: string;
+  fecha_creacion: string;
+  carrito: ProductoCarritoWrapper;
+};
+
+export type ProductoCarritoWrapper = {
+  productos: ProductoCarrito[];
 };
