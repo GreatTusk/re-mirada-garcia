@@ -15,12 +15,12 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!carrito.id_pedido_confirmado) {
-        return;
+      if (carrito.id_pedido_confirmado) {
+        const res = await fetchProductoConfirmado(carrito.id_pedido_confirmado);
+        setPedido(res);
+        setLoading(false);
+      } else {
       }
-      const res = await fetchProductoConfirmado(carrito.id_pedido_confirmado);
-      setPedido(res);
-      setLoading(false);
     };
 
     fetchData();
