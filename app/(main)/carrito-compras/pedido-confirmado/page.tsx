@@ -23,7 +23,7 @@ export default function Page() {
     };
 
     fetchData();
-  }, []);
+  }, [carrito.id_pedido_confirmado]);
 
   if (loading || !pedidoInicial) {
     return;

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function OrderTracking() {
   return (
     <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -10,196 +12,19 @@ export default function OrderTracking() {
           <div className="space-y-4 p-6">
             <div className="flex items-center gap-6">
               <a href="#" className="h-14 w-14 shrink-0">
-                <img
-                  className="h-full w-full dark:hidden"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
-                  alt="imac image"
-                />
-                <img
-                  className="hidden h-full w-full dark:block"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                  alt="imac image"
-                />
-              </a>
-
-              <a
-                href="#"
-                className="min-w-0 flex-1 font-medium text-gray-900 hover:underline dark:text-white"
-              >
-                {" "}
-                PC system All in One APPLE iMac (2023) mqrq3ro/a, Apple M3, 24"
-                Retina 4.5K, 8GB, SSD 256GB, 10-core GPU, macOS Sonoma, Blue,
-                Keyboard layout INT{" "}
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-medium text-gray-900 dark:text-white">
-                  Product ID:
-                </span>{" "}
-                BJ8364850
-              </p>
-
-              <div className="flex items-center justify-end gap-4">
-                <p className="text-base font-normal text-gray-900 dark:text-white">
-                  x1
-                </p>
-
-                <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                  $1,499
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 p-6">
-            <div className="flex items-center gap-6">
-              <a href="#" className="h-14 w-14 shrink-0">
-                <img
-                  className="h-full w-full dark:hidden"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-light.svg"
-                  alt="phone image"
-                />
-                <img
-                  className="hidden h-full w-full dark:block"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-dark.svg"
-                  alt="phone image"
-                />
-              </a>
-
-              <a
-                href="#"
-                className="min-w-0 flex-1 font-medium text-gray-900 hover:underline dark:text-white"
-              >
-                {" "}
-                Restored Apple Watch Series 8 (GPS) 41mm Midnight Aluminum Case
-                with Midnight Sport Band{" "}
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-medium text-gray-900 dark:text-white">
-                  Product ID:
-                </span>{" "}
-                BJ8364850
-              </p>
-
-              <div className="flex items-center justify-end gap-4">
-                <p className="text-base font-normal text-gray-900 dark:text-white">
-                  x2
-                </p>
-
-                <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                  $598
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 p-6">
-            <div className="flex items-center gap-6">
-              <a href="#" className="h-14 w-14 shrink-0">
-                <img
-                  className="h-full w-full dark:hidden"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/ps5-light.svg"
-                  alt="console image"
-                />
-                <img
-                  className="hidden h-full w-full dark:block"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/ps5-dark.svg"
-                  alt="console image"
-                />
-              </a>
-
-              <a
-                href="#"
-                className="min-w-0 flex-1 font-medium text-gray-900 hover:underline dark:text-white"
-              >
-                {" "}
-                Sony Playstation 5 Digital Edition Console with Extra Blue
-                Controller, White PULSE 3D Headset and Surge Dual Controller{" "}
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-medium text-gray-900 dark:text-white">
-                  Product ID:
-                </span>{" "}
-                BJ8364850
-              </p>
-
-              <div className="flex items-center justify-end gap-4">
-                <p className="text-base font-normal text-gray-900 dark:text-white">
-                  x1
-                </p>
-
-                <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                  $799
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 p-6">
-            <div className="flex items-center gap-6">
-              <a href="#" className="h-14 w-14 shrink-0">
-                <img
-                  className="h-full w-full dark:hidden"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/xbox-light.svg"
-                  alt="xbox image"
-                />
-                <img
-                  className="hidden h-full w-full dark:block"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/xbox-dark.svg"
-                  alt="xbox image"
-                />
-              </a>
-
-              <a
-                href="#"
-                className="min-w-0 flex-1 font-medium text-gray-900 hover:underline dark:text-white"
-              >
-                {" "}
-                Xbox Series X Diablo IV Bundle + 2 Xbox Wireless Controller
-                Carbon Black + Controller Charger{" "}
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                <span className="font-medium text-gray-900 dark:text-white">
-                  Product ID:
-                </span>{" "}
-                BJ8364850
-              </p>
-
-              <div className="flex items-center justify-end gap-4">
-                <p className="text-base font-normal text-gray-900 dark:text-white">
-                  x1
-                </p>
-
-                <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                  $699
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 p-6">
-            <div className="flex items-center gap-6">
-              <a href="#" className="h-14 w-14 shrink-0">
-                <img
+                <Image
                   className="h-full w-full dark:hidden"
                   src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-light.svg"
                   alt="phone image"
+                  height={896}
+                  width={457}
                 />
-                <img
+                <Image
                   className="hidden h-full w-full dark:block"
                   src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-dark.svg"
                   alt="phone image"
+                  height={896}
+                  width={457}
                 />
               </a>
 
