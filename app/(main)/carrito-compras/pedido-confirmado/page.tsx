@@ -19,7 +19,6 @@ export default function Page() {
         const res = await fetchProductoConfirmado(carrito.id_pedido_confirmado);
         setPedido(res);
         setLoading(false);
-      } else {
       }
     };
 

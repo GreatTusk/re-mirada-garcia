@@ -103,7 +103,6 @@ export default function ResumenPedido({
             href={"/carrito-compras/pedido-confirmado"}
             onClick={async () => {
               const pedidoConfirmadoId = await confirmPedido(pedido.carrito);
-              console.log(pedidoConfirmadoId.id);
               setCarrito({
                 ...carrito,
                 id_pedido_confirmado: pedidoConfirmadoId.id,
