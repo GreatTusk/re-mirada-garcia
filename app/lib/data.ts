@@ -5,8 +5,8 @@ export const links = [
   { path: "/portafolio", label: "Portafolio" },
   { path: "/tienda", label: "Tienda" },
   { path: "/carrito-compras", label: "Carrito" },
+  { path: "/tracking", label: "Tracking" },
   { path: "/blog", label: "Blog" },
-  { path: "/nuestra_vision", label: "Nuestra visión" },
   { path: "/legal", label: "Legal" },
 ];
 
