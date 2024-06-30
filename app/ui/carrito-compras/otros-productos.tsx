@@ -14,16 +14,13 @@ import { OtrosProductosSkeleton } from "../skeletons";
 // @ts-ignore
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
 
-export default function OtrosProductos() {
+export default function OtrosProductos({
+  productos,
+}: {
+  productos: Producto[];
+}) {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-  const { data: productos, error } = useSWR<Producto[]>(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/producto/?format=json`,
-    fetcher,
-  );
-
   const { carrito, setCarrito } = useCarritoContext();
-  if (error) return <div>Failed to load</div>;
-  if (!productos) return <OtrosProductosSkeleton />;
 
   async function handleAddToCart(producto: Producto) {
     if (!userId) {
