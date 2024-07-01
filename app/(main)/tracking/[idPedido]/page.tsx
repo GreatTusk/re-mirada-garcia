@@ -2,7 +2,6 @@ import DetallePedido from "@/app/ui/tracking/detalle-pedido";
 import {
   fetchDetallePedidoConfirmado,
   fetchPedidoHistorico,
-  fetchPedidosConfirmados,
 } from "@/app/lib/db";
 
 export default async function Page({

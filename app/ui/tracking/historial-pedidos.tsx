@@ -2,8 +2,6 @@ import { PedidoConfirmado } from "@/app/lib/definitions";
 import Link from "next/link";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
 import BotonCancelar from "@/app/ui/tracking/boton-cancelar";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { FolderOpenIcon } from "@heroicons/react/16/solid";
 import { HiOutlineDocumentRemove } from "react-icons/hi";
 
 export default function HistorialPedidos({

@@ -1,11 +1,7 @@
 import HistorialPedidos from "@/app/ui/tracking/historial-pedidos";
 import { currentUser } from "@clerk/nextjs/server";
 import assert from "node:assert";
-import {
-  fetchDetallePedidoConfirmado,
-  fetchPedidoHistorico,
-  fetchPedidosConfirmados,
-} from "@/app/lib/db";
+import { fetchPedidosConfirmados } from "@/app/lib/db";
 import { PedidoConfirmado } from "@/app/lib/definitions";
 
 export default async function Page() {
