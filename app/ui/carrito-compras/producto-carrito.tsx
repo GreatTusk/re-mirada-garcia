@@ -190,6 +190,7 @@ export default function CarritoProducto({
               openConfirmation={openConfirmation}
               setOpenConfirmation={setOpenConfirmation}
               handleDelete={handleDelete}
+              message={"¿Estás seguro de que deseas eliminar este producto?"}
             />
             <button
               onClick={() => setOpenConfirmation(true)}

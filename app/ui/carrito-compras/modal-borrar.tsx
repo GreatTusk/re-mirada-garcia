@@ -4,10 +4,12 @@ export default function ModalBorrar({
   openConfirmation,
   setOpenConfirmation,
   handleDelete,
+  message,
 }: {
   openConfirmation: boolean;
   setOpenConfirmation: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => Promise<void>;
+  message: string;
 }) {
   return (
     <Modal
@@ -53,9 +55,7 @@ export default function ModalBorrar({
             clip-rule="evenodd"
           ></path>
         </svg>
-        <p className="mb-4 text-gray-500 dark:text-gray-300">
-          ¿Estás seguro de que deseas eliminar este producto?
-        </p>
+        <p className="mb-4 text-gray-500 dark:text-gray-300">{message}</p>
         <div className="flex justify-center items-center space-x-4">
           <button
             data-modal-toggle="deleteModal"

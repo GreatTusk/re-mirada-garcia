@@ -5,6 +5,7 @@ const isProtectedRoute = createRouteMatcher([
   "/carrito-compras/(.*)",
   "/carrito-compras",
   "/tracking",
+  "/tracking/(.*)",
 ]);
 
 export default clerkMiddleware((auth, req) => {

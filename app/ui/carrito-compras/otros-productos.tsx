@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Producto } from "@/app/lib/definitions";
-import useSWR from "swr";
 import {
   addToCart,
   fetchCarritoProductosClient,
@@ -9,7 +8,6 @@ import {
 import { useAuth } from "@clerk/nextjs";
 import { useCarritoContext } from "@/app/contexts/carrito_context";
 import Link from "next/link";
-import { OtrosProductosSkeleton } from "../skeletons";
 
 // @ts-ignore
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());

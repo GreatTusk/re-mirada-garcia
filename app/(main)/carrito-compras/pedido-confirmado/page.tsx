@@ -36,12 +36,12 @@ export default function Page() {
         </h2>
         <p className="text-gray-500 dark:text-gray-400 mb-6 md:mb-8">
           Su pedido{" "}
-          <a
-            href="#"
+          <Link
+            href={`/tracking/${carrito.id_pedido_confirmado}`}
             className="font-medium text-gray-900 dark:text-white hover:underline"
           >
             #{carrito.id_pedido_confirmado}
-          </a>{" "}
+          </Link>{" "}
           ha sido recibido y será contactado dentro de 24 horas por nuestro
           equipo.
         </p>
