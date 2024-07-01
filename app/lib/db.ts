@@ -23,16 +23,31 @@ export async function fetchProductoConfirmado(userId: string) {
 
 export async function fetchPedidosConfirmados(userId: string) {
   const response = await fetch(
-    `${process.env.BACKEND_URL}/api/carrito_pedido/?format=json`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/carrito_pedido/?userId=${userId}&format=json`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userId),
     },
   );
   return await response.json();
+}
+
+export async function fetchDetallePedidoConfirmado(pedidoId: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/productos_pedido/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pedidoId: pedidoId }),
+    },
+  );
+  const res = await response.json();
+  console.log(res);
+  return res;
 }
 
 export async function fetchCarritoProductosClient(userId: string) {
@@ -55,6 +70,23 @@ export async function fetchPedido(id: string) {
   );
   return await response.json();
 }
+
+export async function fetchPedidoHistorico(id: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pedidohistorico/${id}/?format=json`,
+  );
+  return await response.json();
+}
+
+export async function deletePedidoHistorico(id: string) {
+  await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/pedidohistorico/${id}/?format=json`,
+    {
+      method: "DELETE",
+    },
+  );
+}
+
 export async function registrarUsuario(userData: Usuario) {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/register_usuario/?format=json`,
