@@ -1,13 +1,9 @@
 "use client";
-import {
-  DocumentDuplicateIcon,
-  HomeIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/outline";
+import { DocumentDuplicateIcon, HomeIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { HiViewGrid } from "react-icons/hi";
+import { HiOutlineUser, HiViewGrid } from "react-icons/hi";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -22,6 +18,11 @@ const links = [
     name: "Productos",
     href: "/admin/dashboard/productos",
     icon: HiViewGrid,
+  },
+  {
+    name: "Usuarios",
+    href: "/admin/dashboard/usuarios",
+    icon: HiOutlineUser,
   },
 ];
 

@@ -13,12 +13,21 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import React from "react";
 import { HiUserCircle } from "react-icons/hi";
 import { AiOutlineLoading } from "react-icons/ai";
+import { checkRole } from "@/app/lib/roles";
 
 export default function NavBar() {
+  const { user } = useUser();
+  const role = user?.publicMetadata.role;
+  // Create a new array based on the user role
+  const pageLinks = [...links];
+  if (role === "admin") {
+    pageLinks.push({ label: "Admin", path: "/admin" });
+  }
   const pathname = usePathname();
 
   return (
@@ -63,7 +72,7 @@ export default function NavBar() {
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          {links.map((link) => (
+          {pageLinks.map((link) => (
             <Navbar.Link
               key={link.path}
               as={Link}

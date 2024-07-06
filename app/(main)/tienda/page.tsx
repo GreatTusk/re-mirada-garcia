@@ -1,30 +1,17 @@
 import { PlanPrecio } from "@/app/ui/tienda/plan-precio";
 import { Metadata } from "next";
 import Marcas from "@/app/ui/tienda/marcas";
-import { PlanFoto } from "@/app/lib/definitions";
+import { ProductoServicio } from "@/app/lib/definitions";
 import { Suspense } from "react";
+import { fetchProductoServicioById } from "@/app/admin/lib/db";
 
 /*
  * Esta funcion se encarga de hacer una peticion al
  * backend para obtener los planes de fotos
  */
-async function fetchPlanesFoto() {
-  const res = await fetch(
-    `${process.env.BACKEND_URL}/api/planfoto/?format=json`,
-  );
-  const data = await res.json();
-
-  return data.map((row: any) => ({
-    id: row.id,
-    titulo: row.titulo,
-    precio: row.precio,
-    incluye: { servicios: row.incluye.servicios },
-    noIncluye: { servicios: row.no_incluye.servicios },
-  }));
-}
 
 export default async function Page() {
-  const planesFoto: PlanFoto[] = await fetchPlanesFoto();
+  const planesFoto: ProductoServicio[] = await fetchProductoServicioById("");
 
   return (
     <main>
@@ -40,9 +27,12 @@ export default async function Page() {
           </p>
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
-          {planesFoto.map((plan: PlanFoto) => (
-            <div key={plan.titulo} id={plan.id}>
-              <Suspense fallback={<div>Loading...</div>} key={plan.titulo}>
+          {planesFoto.map((plan: ProductoServicio) => (
+            <div key={plan.producto.nombre} id={plan.producto.id.toString()}>
+              <Suspense
+                fallback={<div>Loading...</div>}
+                key={plan.producto.nombre}
+              >
                 <PlanPrecio planFoto={plan} />
               </Suspense>
             </div>

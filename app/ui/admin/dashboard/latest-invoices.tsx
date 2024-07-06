@@ -2,14 +2,15 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 
 import { lusitana } from "@/app/ui/admin/fonts";
-import { fetchAllPedidos } from "@/app/admin/lib/data";
+import { fetchPedidoHistorico } from "@/app/admin/lib/db";
 import { PedidoConfirmado } from "@/app/lib/definitions";
 import { AiOutlineUser } from "react-icons/ai";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
 
 export default async function LatestInvoices() {
   // Remove props
-  const latestInvoices: PedidoConfirmado[] = await fetchAllPedidos();
+  const latestInvoices: PedidoConfirmado[] = await fetchPedidoHistorico();
+
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -17,7 +18,6 @@ export default async function LatestInvoices() {
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         {/* NOTE: comment in this code when you get to this point in the course */}
-
         {
           <div className="bg-white px-6">
             {latestInvoices.map((invoice, i) => {

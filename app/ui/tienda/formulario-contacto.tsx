@@ -3,6 +3,7 @@ import { HiMail, HiPhone, HiUser } from "react-icons/hi";
 import { ContactState, crearContactoVenta } from "@/app/lib/actions";
 import { useState } from "react";
 
+// Actualmente no hace nada. Se podría implementar una función para enviar el formulario y verlo en el dashboard, pero no es necesario.
 export default function FormularioContacto({
   setOpenFormModal,
   setOpenSuccessModal,
@@ -11,7 +12,7 @@ export default function FormularioContacto({
   setOpenSuccessModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [initialState, setInitialState] = useState<ContactState>({
-    message: null,
+    message: undefined,
     errors: {},
   });
 

@@ -6,7 +6,7 @@ export default function ComprarBoton({
   producto_id,
   user_id,
 }: {
-  producto_id: string;
+  producto_id: number;
   user_id: string | undefined;
 }) {
   return (
