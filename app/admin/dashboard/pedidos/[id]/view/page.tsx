@@ -1,33 +1,35 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-import { fetchProductoServicioById } from "@/app/admin/lib/db";
+import { fetchPedidoDetalle } from "@/app/admin/lib/db";
 import Breadcrumbs from "@/app/ui/admin/pedidos/breadcrumbs";
-import ProductoEditForm from "@/app/ui/admin/productos/edit-form";
+import PedidoView from "@/app/ui/admin/pedidos/pedido-view";
 
 export const metadata: Metadata = {
-  title: "Editar producto",
+  title: "Editar pedido",
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
-  const producto = await fetchProductoServicioById(id);
+  const producto = await fetchPedidoDetalle(id);
   if (!producto) {
     notFound();
   }
+
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Productos", href: "/admin/dashboard/productos" },
+          { label: "Pedidos", href: "/admin/dashboard/pedidos" },
           {
-            label: "Editar producto",
-            href: `/admin/dashboard/producto/${id}/edit`,
+            label: `Pedido #${id}`,
+            href: `/admin/dashboard/pedidos/${id}/view`,
             active: true,
           },
         ]}
       />
-      <ProductoEditForm producto={producto} />
+      {/*<ProductoEditForm producto={producto} />*/}
+      <PedidoView pedidoTabla={producto} />
     </main>
   );
 }

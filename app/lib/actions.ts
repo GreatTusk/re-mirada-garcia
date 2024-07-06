@@ -1,5 +1,4 @@
 "use server";
-import { checkRole } from "@/app/lib/roles";
 import { clerkClient } from "@clerk/nextjs/server";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
@@ -13,7 +12,7 @@ export type ContactState = {
     consulta?: string[];
     boletin?: string[];
   };
-  message?: string | null;
+  message?: string;
 };
 
 export type PedidoState = {
@@ -162,21 +161,13 @@ export async function crearPedido(
   };
 }
 
-export async function setRole(formData: FormData) {
-  // Check that the user trying to set the role is an admin
-  if (!checkRole("admin")) {
-    return { message: "Not Authorized" };
-  }
-
+export async function setRole(formData: { role: string; id: string }) {
   try {
-    const res = await clerkClient.users.updateUser(
-      formData.get("id") as string,
-      {
-        publicMetadata: { role: formData.get("role") },
-      },
-    );
-    return { message: res.publicMetadata };
+    const res = await clerkClient.users.updateUser(formData.id, {
+      publicMetadata: { role: formData.role },
+    });
+    return { message: res.publicMetadata.role as unknown as string };
   } catch (err) {
-    return { message: err };
+    return { message: err as unknown as string };
   }
 }

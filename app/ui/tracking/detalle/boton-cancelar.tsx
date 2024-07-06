@@ -9,7 +9,7 @@ export default function BotonCancelar({ idPedido }: { idPedido: string }) {
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const router = useRouter();
   async function handleDelete() {
-    console.log(await deletePedidoHistorico(idPedido));
+    await deletePedidoHistorico(idPedido);
     router.push("/tracking");
   }
   return (

@@ -45,9 +45,7 @@ export async function fetchDetallePedidoConfirmado(pedidoId: string) {
       body: JSON.stringify({ pedidoId: pedidoId }),
     },
   );
-  const res = await response.json();
-  console.log(res);
-  return res;
+  return await response.json();
 }
 
 export async function fetchCarritoProductosClient(userId: string) {
@@ -193,6 +191,26 @@ export async function confirmPedido(pedidoId: string) {
 export async function fetchProductos() {
   const response = await fetch(
     `${process.env.BACKEND_URL}/api/producto/?format=json`,
+  );
+  return await response.json();
+}
+
+export async function fetchProductosServicios() {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/get_info_productos/?format=json`,
+  );
+  return await response.json();
+}
+
+export async function postProductosServicios() {
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/api/get_info_productos/?format=json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
   );
   return await response.json();
 }

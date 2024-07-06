@@ -25,11 +25,15 @@ export type ItemTestimonio = {
 };
 
 export type PlanFoto = {
-  id: string;
-  titulo: string;
-  precio: number;
-  incluye: Servicios;
-  noIncluye: Servicios;
+  producto: Producto;
+  incluye: string[];
+  no_incluye?: string[];
+};
+
+export type ProductoServicio = {
+  producto: Producto;
+  incluye: string[];
+  no_incluye?: string[];
 };
 
 export type Servicios = {
@@ -143,7 +147,26 @@ export type PedidoConfirmado = {
   email: string;
   phone_number: string;
   fecha_creacion: string;
+  total: number;
   pedidos: ProductosPedido[];
+};
+
+export type PedidoConfirmadoTabla = {
+  id_pedido: string;
+  usuario: string;
+  direccion: string;
+  region: string;
+  comuna: string;
+  descripcion: string;
+  fecha: string;
+  metodo_pago: string;
+  nombre_empresa?: string;
+  rut_empresa?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  fecha_creacion: string;
   total: number;
 };
 
@@ -151,4 +174,14 @@ export type ProductosPedido = {
   producto: Producto;
   cantidad: number;
   precio_total: number;
+};
+
+export type PedidoTabla = {
+  pedido: PedidoConfirmadoTabla;
+  productos_pedido: ProductosPedido[];
+};
+
+export type Revenue = {
+  month: string;
+  total: number;
 };

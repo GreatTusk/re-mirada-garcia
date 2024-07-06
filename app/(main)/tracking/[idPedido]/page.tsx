@@ -15,7 +15,6 @@ export default async function Page({
     fetchDetallePedidoConfirmado(idPedido),
     fetchPedidoHistorico(idPedido),
   ]);
-  console.log(detallePedido);
   return (
     <DetallePedido
       productosPedido={detallePedido}

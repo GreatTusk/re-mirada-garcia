@@ -15,7 +15,7 @@ export default function BotonCancelar({
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const router = useRouter();
   async function handleDelete() {
-    console.log(await deletePedidoHistorico(idPedido));
+    await deletePedidoHistorico(idPedido);
     router.refresh();
   }
   return (

@@ -9,7 +9,7 @@ import {
   fetchPedidosQuantity,
   fetchRevenue,
   fetchTotalUsuarios,
-} from "@/app/admin/lib/data";
+} from "@/app/admin/lib/db";
 import { formatPriceWithSeparator } from "@/app/lib/util_server";
 
 const iconMap = {
